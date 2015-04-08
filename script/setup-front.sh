@@ -10,7 +10,7 @@ ACCEPT_PORT_TO=29999
 echo 'Setting up this computer as the "front"...'
 
 
-echo 'Downloading script for reconnection...'
+echo 'Downloading scripts to configure connections...'
 
 curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/allow-ssh.sh
 chmod +x ~/allow-ssh.sh
