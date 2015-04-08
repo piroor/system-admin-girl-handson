@@ -1,4 +1,6 @@
 #!/bin/bash
+# Run as root, like:
+#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
 
 echo 'Setting up this computer as the "front"...'
 
@@ -7,7 +9,7 @@ ETH1_CONFIG=/etc/sysconfig/network-scripts/ifcfg-eth1
 
 echo "Detected MAC Address of eth1: $ETH1_MAC_ADDRESS"
 
-echo 'Configuring eth1...'
+echo 'Activating eth1...'
 echo 'DEVICE="eth1"'                >  $ETH1_CONFIG
 echo "HWADDR=\"$ETH1_MAC_ADDRESS\"" >> $ETH1_CONFIG
 echo 'BOOTPROTO="static"'           >> $ETH1_CONFIG
