@@ -1,4 +1,6 @@
 #!/bin/bash
+# Run as root, like:
+#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-back.sh | bash
 
 echo 'Setting up this computer as the "back"...'
 
@@ -7,10 +9,14 @@ ETH1_MAC_ADDRESS=$(ifconfig eth1 | grep HWaddr | sed -r -e 's/^.* ([0-9A-Z:]+)/\
 ETH0_CONFIG=/etc/sysconfig/network-scripts/ifcfg-eth0
 ETH1_CONFIG=/etc/sysconfig/network-scripts/ifcfg-eth1
 
-echo "Detected MAC Address of eth0: $ETH1_MAC_ADDRESS"
+echo "Detected MAC Address of eth0: $ETH0_MAC_ADDRESS"
 echo "Detected MAC Address of eth1: $ETH1_MAC_ADDRESS"
 
-echo 'Configuring eth1...'
+echo 'Deactivating eth0...'
+mv $ETH0_CONFIG ~/ifcfg-eth0.bak
+cat ~/ifcfg-eth0.bak | sed -r -e 's/ONBOOT="yes"/ONBOOT="no"/' > $ETH0_CONFIG
+
+echo 'Activating eth1...'
 echo 'DEVICE="eth1"'                >  $ETH1_CONFIG
 echo "HWADDR=\"$ETH1_MAC_ADDRESS\"" >> $ETH1_CONFIG
 echo 'BOOTPROTO="static"'           >> $ETH1_CONFIG
