@@ -6,6 +6,8 @@ echo 'Setting up this computer as the "front"...'
 
 ETH1_MAC_ADDRESS=$(ifconfig eth1 | grep HWaddr | sed -r -e 's/^.* ([0-9A-Z:]+)/\1/')
 ETH1_CONFIG=/etc/sysconfig/network-scripts/ifcfg-eth1
+SSHD_CONFIG=/etc/ssh/sshd_config
+SSHD_CONFIG_BACKUP=~/sshd_config.bak.$(date +%Y-%m-%d_%H-%M-%S)
 
 echo "Detected MAC Address of eth1: $ETH1_MAC_ADDRESS"
 
@@ -21,5 +23,12 @@ echo 'ONBOOT="yes"'                 >> $ETH1_CONFIG
 
 echo 'Restarting interfaces...'
 service network restart
+
+echo 'Activating port-forwarding from remote computers...'
+mv $SSHD_CONFIG $SSHD_CONFIG_BACKUP
+cat $SSHD_CONFIG_BACKUP | \
+  sed -r -e 's/^#? *GatewayPorts +no/GatewayPorts clientspecified/' \
+  > $SSHD_CONFIG
+service sshd restart
 
 echo 'Done.'
