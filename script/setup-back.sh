@@ -15,7 +15,9 @@ echo "Detected MAC Address of eth1: $ETH1_MAC_ADDRESS"
 
 echo 'Deactivating eth0...'
 mv $ETH0_CONFIG $ETH0_CONFIG_BACKUP
-cat $ETH0_CONFIG_BACKUP | sed -r -e 's/ONBOOT="yes"/ONBOOT="no"/' > $ETH0_CONFIG
+cat $ETH0_CONFIG_BACKUP | \
+  sed -r -e 's/ONBOOT="yes"/ONBOOT="no"/' \
+  > $ETH0_CONFIG
 
 echo 'Activating eth1...'
 echo 'DEVICE="eth1"'                >  $ETH1_CONFIG
