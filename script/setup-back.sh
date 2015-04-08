@@ -8,6 +8,12 @@ STATIC_IP_ADDRESS=192.168.0.110
 echo 'Setting up this computer as the "back"...'
 
 
+echo 'Downloading script for reconnection...'
+
+curl -o ~/activate-eth0.sh https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/activate-eth0.sh
+chmod +x ~/activate-eth0.sh
+
+
 echo 'Activating eth1...'
 
 ETH1_MAC_ADDRESS=$(ifconfig eth1 | grep HWaddr | sed -r -e 's/^.* ([0-9A-Z:]+)/\1/')
