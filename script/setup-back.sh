@@ -24,4 +24,12 @@ echo 'ONBOOT="yes"'                  >> $ETH1_CONFIG
 echo 'Restarting interfaces...'
 service network restart
 
+echo 'Disabling canonical plugin of WordPress...'
+WP_CONFIG=/var/www/vhosts/default/wp-settings.php
+WP_CONFIG_BACKUP=~/wp-settings.php.bak.$(date +%Y-%m-%d_%H-%M-%S)
+mv $WP_CONFIG $WP_CONFIG_BACKUP
+cat $WP_CONFIG_BACKUP | \
+  sed -r -e 's;(^[^/].+canonical.php);// \1;' \
+  > $WP_CONFIG
+
 echo 'Done.'
