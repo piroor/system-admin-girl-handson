@@ -106,6 +106,27 @@ ssh root@localhost -i .ssh/conoha -p 10022
 
 
 
+
+# SSHポートフォワード（逆方向）で、frontの20022番ポートを手元のPCの22番ポートに転送する
+
+※なぜ20022か？：SSHの既定のポート番号が22なので、それに20000を足している。
+
+~~~
+$ ssh root@203.0.113.1 -i .ssh/conoha -R 192.168.0.100:20022:localhost:22
+~~~
+
+これで、backからfrontを経由して手元のPCにSSH接続できるようになっている。
+（sshdが起動している、パスワード認証でSSH接続できるなど、条件が整っていれば。）
+
+~~~
+# ssh username@192.168.0.100
+~~~
+
+RはRemoteForwardの意味。RemoteからLocalへ逆方向に転送するので、RemoteForward。
+
+
+
+
 # SSHポートフォワード（逆方向）で、frontの20102番ポートを手元のPCの10102番ポートに転送する
 
 ※なぜ20102か？：rabbirackの既定のポート番号が10102なので、それに10000を足している。
@@ -122,6 +143,3 @@ $ ssh root@203.0.113.1 -i .ssh/conoha -R 203.0.113.1:20102:localhost:10102
 ~~~
 $ ssh root@203.0.113.1 -i .ssh/conoha -R 0.0.0.0:20102:localhost:10102
 ~~~
-
-RはRemoteForwardの意味。RemoteからLocalへ逆方向に転送するので、RemoteForward。
-
