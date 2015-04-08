@@ -41,6 +41,7 @@ cat $IPTABLES_CONFIG_BACKUP | \
   sed -r -e "s/$IPTABLES_ACCEPT_LINE//" \
          -e "/.+--dport 22 .+$/a $IPTABLES_ACCEPT_LINE" \
   > $IPTABLES_CONFIG
+
 service iptables restart
 
 
@@ -53,6 +54,7 @@ mv $SSHD_CONFIG $SSHD_CONFIG_BACKUP
 cat $SSHD_CONFIG_BACKUP | \
   sed -r -e 's/^#? *GatewayPorts +no/GatewayPorts clientspecified/' \
   > $SSHD_CONFIG
+
 service sshd restart
 
 
