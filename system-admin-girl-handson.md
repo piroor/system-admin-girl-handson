@@ -63,6 +63,7 @@ allotted_time
 （スクリーンショット）
 
  * WordPressの初期画面が表示されるか？
+ * ささっと初期設定を済ませてしまう
 
 # 社内専用サーバーをインターネットから切り離そう
 
@@ -199,7 +200,7 @@ ohno@front$ ssh guest@localhost -p 20022
 別解
 
 ~~~
-$ ssh root@203.0.113.1 -i .ssh/conoha  -R 192.168.0.100:20022:localhost:22
+ohno@back$ ssh ohno@192.168.0.100 -i .ssh/conoha  -R 192.168.0.100:20022:localhost:22
 ~~~
 
 社内にあるコンピューター（back）
@@ -231,30 +232,68 @@ http://203.0.113.1:20102/
 
 （概念図）
 
+注意点：
 
-# Case2-3: 外部から到達不可能なネットワーク内にあるサーバに、踏み台サーバーを経由して、手元のPCからSSH接続したい
+ * 手元のPCをインターネットに公開しているのと全く同じなので、危険。
+ * frontのsshdが、GatewayPorts yesまたはclientspecifiedに設定されている必要がある。
+ * frontのiptablesで、指定のポートが解放されている必要がある。
 
-10.0.0.0/24のローカルネットワークにある
-10.0.0.100のサーバー（ラベル：internal）へSSH接続する。
-（新たにネットワークとサーバーを準備する）
+
+# Case2-3: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからSSH接続したい
+
+frontに対して外部からのSSH接続を禁止して、「外には出て行けるが、中には入れない」ネットワークを用意する。
+
+~~~
+root@front# ./disallow-ssh.sh
+~~~
+
+さらに、新たな踏み台サーバーとして、relay（203.0.113.2と仮定）を用意する。
+これはsetup-relay.shでセットアップする。
 
 （ネットワーク構成図）
 
-internalから踏み台サーバーへSSH接続して、リモートフォワードを設定する。
+frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@internal$ ssh root@203.0.113.1 -i .ssh/conoha -R 20022:localhost:22
+user@front$ ssh root@203.0.113.2 -i .ssh/conoha -R 20022:192.168.0.110:22
 ~~~
 
-次に、手元のPCから踏み台サーバーへSSH接続する。
+次に、手元のPCからrelayへSSH接続する。
 そうしたら、20022番ポートでSSH接続する。
 
 ~~~
-$ ssh root@203.0.113.1 -i .ssh/conoha
-root@front$ ssh localhost -p 20022
+$ ssh root@203.0.113.2 -i .ssh/conoha
+root@front2$ ssh localhost -p 20022
 ~~~
 
 （概念図）
+
+
+# Case2-4: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからHTTP接続したい
+
+（ネットワーク構成図）
+
+frontからrelayへSSH接続して、リモートフォワードを設定する。
+
+~~~
+user@front$ ssh root@203.0.113.2 -i .ssh/conoha -R 203.0.113.1:20080:192.168.0.110:80
+~~~
+
+手元のPC：
+
+~~~
+$ curl -L "http://203.0.113.2:20080/"
+~~~
+
+（概念図）
+
+注意点：
+
+ * サーバーをインターネットに公開しているのと全く同じなので、危険。
+ * relayのsshdが、GatewayPorts yesまたはclientspecifiedに設定されている必要がある。
+ * relayのiptablesで、指定のポートが解放されている必要がある。
+ * front-relay間の接続が切れたらお手上げ。（自動再接続させたいならautosshを使う）
+
 
 
 
@@ -262,20 +301,27 @@ root@front$ ssh localhost -p 20022
 
 （概念図）
 
-# Case3-1: 外部から到達不可能なネットワーク内にあるサーバに、踏み台サーバーを経由して、手元のPCからHTTP接続したい
+# Case3-1: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからHTTP接続したい（より安全なやり方）
+
+新たな踏み台サーバーとして、plain-relay（203.0.113.3と仮定）を用意する。
+これは初期設定のままで利用する。
+
+ * plain-relayのsshdは、GatewayPorts noでもよい。
+ * plain-relayのiptablesは、指定のポートが解放されていなくてもよい。
+ * front-plain-relay間の接続が切れたらお手上げ。（自動再接続させたいならautosshを使う）
 
 （ネットワーク構成図）
 
-まず、internalから踏み台サーバーへSSH接続して、リモートフォワードを設定する。
+まず、frontからplain-relayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@internal$ ssh root@203.0.113.1 -i .ssh/conoha -R 20080:localhost:80
+user@front$ ssh root@203.0.113.3 -i .ssh/conoha -R 20080:192.168.0.110:80
 ~~~
 
-次に、手元のPCから踏み台サーバーへSSH接続して、ローカルフォワードを設定する。
+次に、手元のPCからplain-relayへSSH接続して、ローカルフォワードを設定する。
 
 ~~~
-$ ssh root@203.0.113.1 -i .ssh/conoha -L 10080:localhost:20080
+$ ssh root@203.0.113.3 -i .ssh/conoha -L 10080:localhost:20080
 ~~~
 
 手元のPCの別のコンソール：
