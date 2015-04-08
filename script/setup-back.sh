@@ -10,7 +10,7 @@ echo 'Setting up this computer as the "back"...'
 
 echo 'Downloading script for reconnection...'
 
-curl -o ~/activate-eth0.sh https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/activate-eth0.sh
+curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/activate-eth0.sh
 chmod +x ~/activate-eth0.sh
 
 

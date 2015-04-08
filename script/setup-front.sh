@@ -12,10 +12,10 @@ echo 'Setting up this computer as the "front"...'
 
 echo 'Downloading script for reconnection...'
 
-curl -o https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/allow-ssh.sh
+curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/allow-ssh.sh
 chmod +x ~/allow-ssh.sh
 
-curl -o https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/disallow-ssh.sh
+curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/disallow-ssh.sh
 chmod +x ~/disallow-ssh.sh
 
 
