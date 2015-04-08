@@ -40,6 +40,7 @@ cat $IPTABLES_CONFIG_BACKUP | \
   sed -r -e "s/$IPTABLES_ACCEPT_LINE//" \
          -e "/.+--dport 22 .+$/a $IPTABLES_ACCEPT_LINE" \
   > $IPTABLES_CONFIG
+service iptables restart
 
 echo 'Activating port-forwarding from remote computers...'
 mv $SSHD_CONFIG $SSHD_CONFIG_BACKUP
