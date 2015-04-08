@@ -2,6 +2,7 @@
 # Run as root, like:
 #   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
 
+STATIC_IP_ADDRESS=192.168.0.100
 ACCEPT_PORT_FROM=20000
 ACCEPT_PORT_TO=29999
 
@@ -25,7 +26,7 @@ echo 'Activating eth1...'
 echo 'DEVICE="eth1"'                >  $ETH1_CONFIG
 echo "HWADDR=\"$ETH1_MAC_ADDRESS\"" >> $ETH1_CONFIG
 echo 'BOOTPROTO="static"'           >> $ETH1_CONFIG
-echo 'IPADDR="192.168.0.100"'       >> $ETH1_CONFIG
+echo "IPADDR=\"$STATIC_IP_ADDRESS\"" >> $ETH1_CONFIG
 echo 'NETMASK="255.255.255.0"'      >> $ETH1_CONFIG
 echo 'NM_CONTROLLED="no"'           >> $ETH1_CONFIG
 echo 'TYPE="Ethernet"'              >> $ETH1_CONFIG
