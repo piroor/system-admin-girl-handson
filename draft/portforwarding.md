@@ -120,7 +120,7 @@ $ ssh root@203.0.113.1 -i .ssh/conoha -R 192.168.0.100:20022:localhost:22
 （sshdが起動している、パスワード認証でSSH接続できるなど、条件が整っていれば。）
 
 ~~~
-# ssh username@192.168.0.100
+# ssh username@192.168.0.100 -p 20022
 ~~~
 
 RはRemoteForwardの意味。RemoteからLocalへ逆方向に転送するので、RemoteForward。
