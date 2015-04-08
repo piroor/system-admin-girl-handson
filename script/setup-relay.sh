@@ -2,7 +2,6 @@
 # Run as root, like:
 #   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-relay.sh | bash
 
-STATIC_IP_ADDRESS=192.168.0.100
 ACCEPT_PORT_FROM=20000
 ACCEPT_PORT_TO=29999
 
