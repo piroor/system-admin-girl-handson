@@ -30,7 +30,7 @@ echo 'Restarting interfaces...'
 service network restart
 
 
-echo "Allowing to access ports from $ACCEPT_PORT_FROM to $ACCEPT_PORT_TO..."
+echo "Allowing accesses for all ports $ACCEPT_PORT_FROM to $ACCEPT_PORT_TO..."
 
 IPTABLES_CONFIG=/etc/sysconfig/iptables
 IPTABLES_CONFIG_BACKUP=~/iptables.bak.$(date +%Y-%m-%d_%H-%M-%S)
