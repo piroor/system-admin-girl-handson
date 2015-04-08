@@ -19,78 +19,38 @@ chmod 600 ~/.ssh/conoha
 グローバルIPは203.0.113.1とする。
 
 一旦終了して、192.168.0.0/24のローカルネットワークに接続するインターフェースを追加する。
-MACアドレスを控えておく（fa:16:3e:78:01:51とする）。
 
 サーバを起動して、ログインする。
-以下の通りローカルネットワークを設定し、192.168.0.100を割り当てる。
+以下の通りセットアップスクリプトを実行する。
 
 ~~~
-# vim /etc/sysconfig/network-scripts/ifcfg-eth1
+# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
 ~~~
 
-~~~
-DEVICE="eth1"
-HWADDR="fa:16:3e:78:01:51"
-BOOTPROTO="static"
-IPADDR="192.168.0.100"
-NETMASK="255.255.255.0"
-NM_CONTROLLED="no"
-TYPE="Ethernet"
-ONBOOT="yes"
-~~~
+これにより、以下の設定が施される。
 
-ネットワークを再起動する。
-
-~~~
-# service network restart
-~~~
-
+ * eth1を有効化し、192.168.0.100を固定割り当て
+ * ループバックアドレス以外のバインドアドレスによるリモートフォワードを許可
+ * 20000～29999番のポートへの外部からの接続を許可
 
 
 # 社内接続専用のWordPressサーバのセットアップ
 
 既定の設定で、イメージを「CentOS + nginx + wordpress」にしてVPSを作成。
-ラベルは「wordpress」とする。
+ラベルは「back」とする。
 192.168.0.0/24のローカルネットワークに接続するインターフェースを追加する。
-MACアドレスを控えておく（fa:16:3e:78:01:61とする）。
-
 
 サーバを起動して、ログインする。
-以下の通りローカルネットワークを設定し、192.168.0.110を割り当てる。
+以下の通りセットアップスクリプトを実行する。
 
 ~~~
-# vim /etc/sysconfig/network-scripts/ifcfg-eth1
+# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
 ~~~
 
-~~~
-DEVICE="eth1"
-HWADDR="fa:16:3e:78:01:61"
-BOOTPROTO="static"
-IPADDR="192.168.0.110"
-NETMASK="255.255.255.0"
-NM_CONTROLLED="no"
-TYPE="Ethernet"
-ONBOOT="yes"
-~~~
+これにより、以下の設定が施される。
 
-また、eth0を無効化する
-
-~~~
-# vim /etc/sysconfig/network-scripts/ifcfg-eth0
-~~~
-
-~~~
-ONBOOT="no" （ここだけ書き換える）
-~~~
-
-ネットワークを再起動する。
-
-~~~
-# service network restart
-~~~
-
-これで、インターネット経由ではアクセスできないようになる。
-
+ * eth1を有効化し、192.168.0.110を固定割り当て
+ * eth0を無効化（インターネット経由ではアクセスできないようになる）
 
 
 
@@ -164,56 +124,4 @@ $ ssh root@203.0.113.1 -i .ssh/conoha -R 0.0.0.0:20102:localhost:10102
 ~~~
 
 RはRemoteForwardの意味。RemoteからLocalへ逆方向に転送するので、RemoteForward。
-
-
-これをやるためには、以下の設定も変える必要がある。
-
-## 20102番ポートの開放
-
-初期状態ではiptablesで22番ポート等の一部のポートだけが開放されている。
-iptablesの設定を変えて、20102番ポートも開放してやらないといけない。
-
-~~~
-# vim /etc/sysconfig/iptables
-~~~
-
-面倒なので20000から29999までのポートをまとめて解放する。
-（20000～29999をリモートフォワード用によく使う、と仮定する）
-
-~~~
-...
--A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport 20000:29999 -j ACCEPT # この行を追加
-...
-~~~
-
-iptablesを再起動する。
-
-~~~
-# service iptables restart
-~~~
-
-## ループバックアドレス以外のバインドアドレスによるリモートフォワードの許可
-
-sshdの設定を変える必要がある。
-初期状態では、localhost:20102 としてアクセスされた時しかリモートフォワードされない。
-
-~~~
-# vim /etc/ssh/sshd_config
-~~~
-
-で設定ファイルを開いて
-
-~~~
-GatewayPorts clientspecified
-~~~
-
-という設定を書き足す（既にある場合は、値を書き換える）。
-その後、sshdを再起動する。
-
-~~~
-# service sshd restart
-~~~
-
-これで、203.0.113.1:20102 としてアクセスされた時でもリモートフォワードされる。
 
