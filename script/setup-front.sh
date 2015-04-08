@@ -10,6 +10,15 @@ ACCEPT_PORT_TO=29999
 echo 'Setting up this computer as the "front"...'
 
 
+echo 'Downloading script for reconnection...'
+
+curl -o https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/allow-ssh.sh
+chmod +x ~/allow-ssh.sh
+
+curl -o https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/disallow-ssh.sh
+chmod +x ~/disallow-ssh.sh
+
+
 echo 'Activating eth1...'
 
 ETH1_MAC_ADDRESS=$(ifconfig eth1 | grep HWaddr | sed -r -e 's/^.* ([0-9A-Z:]+)/\1/')
