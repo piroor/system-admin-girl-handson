@@ -44,7 +44,8 @@ chmod 600 ~/.ssh/conoha
 以下の通りセットアップスクリプトを実行する。
 
 ~~~
-# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
+# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-back.sh | bash
+# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/disconnect-back.sh | bash
 ~~~
 
 これにより、以下の設定が施される。
