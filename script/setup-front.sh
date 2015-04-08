@@ -34,7 +34,7 @@ echo 'ONBOOT="yes"'                 >> $ETH1_CONFIG
 echo 'Restarting interfaces...'
 service network restart
 
-echo 'Allowing to access ports from $ACCEPT_PORT_FROM to $ACCEPT_PORT_TO...'
+echo "Allowing to access ports from $ACCEPT_PORT_FROM to $ACCEPT_PORT_TO..."
 mv $IPTABLES_CONFIG $IPTABLES_CONFIG_BACKUP
 cat $IPTABLES_CONFIG_BACKUP | \
   sed -r -e "s/$IPTABLES_ACCEPT_LINE//" \
