@@ -55,12 +55,20 @@ http://qiita.com/isaoshimizu/items/84ac5a0b1d42b9d355cf
  * ローカルネットワークに接続
  * セットアップ用スクリプトを実行
 
+~~~
+# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
+~~~
+
 # VPSの設定（社内専用サーバー）
 
 （スクリーンショット）
 
  * ローカルネットワークに接続
  * セットアップ用スクリプトを実行
+
+~~~
+# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-back.sh | bash
+~~~
 
 # 動作を確かめてみよう
 
@@ -72,6 +80,10 @@ http://qiita.com/isaoshimizu/items/84ac5a0b1d42b9d355cf
 # 社内専用サーバーをインターネットから切り離そう
 
  * 設定変更用スクリプトを実行
+
+~~~
+# ~/deactivate-eth0.sh
+~~~
 
 # 準備完了
 

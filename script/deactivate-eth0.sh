@@ -1,8 +1,6 @@
 #!/bin/bash
 # Run as root, like:
-#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/disconnect-back.sh | bash
-
-echo 'Setting up this computer as the "back"...'
+#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/deactivate-eth0.sh | bash
 
 
 echo 'Deactivating eth0...'

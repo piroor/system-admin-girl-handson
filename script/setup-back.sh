@@ -8,10 +8,13 @@ STATIC_IP_ADDRESS=192.168.0.110
 echo 'Setting up this computer as the "back"...'
 
 
-echo 'Downloading script for reconnection...'
+echo 'Downloading scripts to modify network interfaces...'
 
 curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/activate-eth0.sh
 chmod +x ~/activate-eth0.sh
+
+curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/deactivate-eth0.sh
+chmod +x ~/deactivate-eth0.sh
 
 
 echo 'Creating a new user "user"...'
