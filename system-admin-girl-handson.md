@@ -32,6 +32,10 @@ allotted_time
 
 （スクリーンショット）
 
+# エージェントフォワードの設定
+
+http://qiita.com/isaoshimizu/items/84ac5a0b1d42b9d355cf
+
 # VPSの作成（踏み台）
 
 （スクリーンショット）
@@ -93,13 +97,13 @@ allotted_time
 手元のPC：
 
 ~~~
-$ ssh root@203.0.113.1 -i .ssh/conoha
+$ ssh user@203.0.113.1 -i .ssh/conoha
 ~~~
 
 ログイン先の踏み台サーバー（front）：
 
 ~~~
-$ ssh root@192.168.0.110 -i .ssh/conoha
+$ ssh user@192.168.0.110 -i .ssh/conoha
 ~~~
 
 （概念図）
@@ -118,9 +122,9 @@ $ ssh root@192.168.0.110 -i .ssh/conoha
 手元のPC：
 
 ~~~
-$ ssh root@203.0.113.1 -i .ssh/conoha -L 10022:192.168.0.110:22
-$ scp -P 10022 ~/myfile.zip root@localhost:/path/to/destination/directory/
-$ scp -P 10022 root@localhost:/path/to/file ~/
+$ ssh user@203.0.113.1 -i .ssh/conoha -L 10022:192.168.0.110:22
+$ scp -P 10022 ~/myfile.zip user@localhost:/path/to/destination/directory/
+$ scp -P 10022 user@localhost:/path/to/file ~/
 ~~~
 
 （概念図）
@@ -136,7 +140,7 @@ $ scp -P 10022 root@localhost:/path/to/file ~/
 手元のPC：
 
 ~~~
-$ ssh root@203.0.113.1 -i .ssh/conoha -L 10080:192.168.0.110:80
+$ ssh user@203.0.113.1 -i .ssh/conoha -L 10080:192.168.0.110:80
 ~~~
 
 手元のPCの別のコンソール：
@@ -156,7 +160,7 @@ $ curl -L "http://localhost:10080/"
 手元のPC：
 
 ~~~
-$ ssh root@203.0.113.1 -i .ssh/conoha -L 10080:192.168.0.110:80 -g
+$ ssh user@203.0.113.1 -i .ssh/conoha -L 10080:192.168.0.110:80 -g
 ~~~
 
 同一セグメント内にある他のPC：
@@ -185,7 +189,7 @@ $ curl -L "http://192.168.1.10:10080/wp-admin/install.php"
 手元のPC：
 
 ~~~
-$ ssh root@203.0.113.1 -i .ssh/conoha  -R 20022:localhost:22
+$ ssh user@203.0.113.1 -i .ssh/conoha  -R 20022:localhost:22
 ~~~
 
 社内にあるコンピューター（back）
@@ -221,7 +225,7 @@ http://rabbit-shocker.org/ja/rabbirack/
 手元のPC：
 
 ~~~
-$ ssh root@203.0.113.1 -i .ssh/conoha -R 203.0.113.1:20102:localhost:10102
+$ ssh user@203.0.113.1 -i .ssh/conoha -R 203.0.113.1:20102:localhost:10102
 ~~~
 
 手元の携帯端末
@@ -244,6 +248,7 @@ http://203.0.113.1:20102/
 frontに対して外部からのSSH接続を禁止して、「外には出て行けるが、中には入れない」ネットワークを用意する。
 
 ~~~
+user@front$ su
 root@front# ./disallow-ssh.sh
 ~~~
 
@@ -255,15 +260,15 @@ root@front# ./disallow-ssh.sh
 frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh root@203.0.113.2 -i .ssh/conoha -R 20022:192.168.0.110:22
+user@front$ ssh user@203.0.113.2 -i .ssh/conoha -R 20022:192.168.0.110:22
 ~~~
 
 次に、手元のPCからrelayへSSH接続する。
 そうしたら、20022番ポートでSSH接続する。
 
 ~~~
-$ ssh root@203.0.113.2 -i .ssh/conoha
-root@front2$ ssh localhost -p 20022
+$ ssh user@203.0.113.2 -i .ssh/conoha
+user@front2$ ssh localhost -p 20022
 ~~~
 
 （概念図）
@@ -276,7 +281,7 @@ root@front2$ ssh localhost -p 20022
 frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh root@203.0.113.2 -i .ssh/conoha -R 203.0.113.1:20080:192.168.0.110:80
+user@front$ ssh user@203.0.113.2 -i .ssh/conoha -R 203.0.113.1:20080:192.168.0.110:80
 ~~~
 
 手元のPC：
@@ -304,7 +309,7 @@ $ curl -L "http://203.0.113.2:20080/"
 # Case3-1: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからHTTP接続したい（より安全なやり方）
 
 新たな踏み台サーバーとして、plain-relay（203.0.113.3と仮定）を用意する。
-これは初期設定のままで利用する。
+これはsetup-plain-relay.shでセットアップする。
 
  * plain-relayのsshdは、GatewayPorts noでもよい。
  * plain-relayのiptablesは、指定のポートが解放されていなくてもよい。
@@ -315,13 +320,13 @@ $ curl -L "http://203.0.113.2:20080/"
 まず、frontからplain-relayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh root@203.0.113.3 -i .ssh/conoha -R 20080:192.168.0.110:80
+user@front$ ssh user@203.0.113.3 -i .ssh/conoha -R 20080:192.168.0.110:80
 ~~~
 
 次に、手元のPCからplain-relayへSSH接続して、ローカルフォワードを設定する。
 
 ~~~
-$ ssh root@203.0.113.3 -i .ssh/conoha -L 10080:localhost:20080
+$ ssh user@203.0.113.3 -i .ssh/conoha -L 10080:localhost:20080
 ~~~
 
 手元のPCの別のコンソール：
