@@ -4,6 +4,8 @@
 
 
 echo "Allowing SSH accesses from public network..."
+# iptablesを編集して、ローカルネットワークからの接続のみを
+# 受け付けるようにしていた設定を解除する。
 
 IPTABLES_CONFIG=/etc/sysconfig/iptables
 IPTABLES_CONFIG_BACKUP=~/iptables.bak.$(date +%Y-%m-%d_%H-%M-%S)
