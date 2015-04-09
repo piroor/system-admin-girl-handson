@@ -178,7 +178,7 @@ allotted_time
 ![](images/screenshots/setup-vps-step7.png){:relative_height='95'}
 
 ~~~
-root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-front.sh | bash
+root@front# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-front.sh | bash
 ~~~
 
 # frontの初期化 (4/6)
@@ -194,8 +194,8 @@ root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-hands
 ![](images/screenshots/setup-vps-step10.png){:relative_height='95'}
 
 ~~~
-root@back# su user
-user@back$ passwd
+root@front# su user
+user@front$ passwd
 ~~~
 
 [メモ用シート](printable-sheets/memo.html)にuserのパスワードを書き込んでおく。
