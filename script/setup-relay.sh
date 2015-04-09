@@ -15,7 +15,10 @@ echo 'Creating a new user "user"...'
 # 名前は「user」、パスワードも「user」。
 # ログイン後に自分でpasswdコマンドを実行してパスワードを変更する事を強く推奨。
 useradd user
-echo "user" | passwd user --stdin
+if [ $? = 0 ]
+then
+  echo "user" | passwd user --stdin
+fi
 
 # 鍵認証できるように、公開鍵の設定をしておく。
 mkdir -p ~user/.ssh
