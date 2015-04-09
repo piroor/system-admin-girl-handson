@@ -48,8 +48,12 @@ allotted_time
  * セットアップ用スクリプトを実行
 
 ~~~
-# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
+root@front# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
+root@front# su user
+user@front$ passwd
 ~~~
+
+IPアドレスは203.0.113.1と仮定
 
 # VPSの設定（社内専用サーバー）
 
@@ -59,10 +63,16 @@ allotted_time
  * セットアップ用スクリプトを実行
 
 ~~~
-# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-back.sh | bash
+root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-back.sh | bash
+root@back# su user
+user@back$ passwd
 ~~~
 
+IPアドレスは203.0.113.2と仮定
+
 # 動作を確かめてみよう
+
+http://203.0.113.2/
 
 （スクリーンショット）
 
@@ -120,9 +130,10 @@ user@front$ ssh user@192.168.0.110
 手元のPC：
 
 ~~~
-$ scp ~/myfile.zip user@203.0.113.1:/tmp/
+$ echo "Hello!" >  /tmp/localfile
+$ scp /tmp/localfile user@203.0.113.1:/tmp/uploadedfile
 $ ssh user@203.0.113.1
-user@front$ scp /tmp/myfile.zip user@localhost:/path/to/destination/directory/
+user@front$ scp /tmp/uploadedfile user@192.168.0.110:/tmp/uploadedfile
 ~~~
 
 （概念図）
@@ -144,8 +155,13 @@ user@front$ scp /tmp/myfile.zip user@localhost:/path/to/destination/directory/
 
 ~~~
 $ ssh user@203.0.113.1 -L 10022:192.168.0.110:22
-$ scp -P 10022 ~/myfile.zip user@localhost:/path/to/destination/directory/
-$ scp -P 10022 user@localhost:/path/to/file ~/
+~~~
+
+手元のPCの別コンソール：
+
+~~~
+$ scp -P 10022 /tmp/localfile user@localhost:/tmp/uploadedfile2
+$ scp -P 10022 user@localhost:/tmp/uploadedfile2 /tmp/downloadedfile
 ~~~
 
 （概念図）
