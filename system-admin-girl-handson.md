@@ -51,25 +51,27 @@ allotted_time
 
 （ネットワーク構成図）
 
+
+
 # ローカルネットワークの作成 (1/5)
 
-![](images/add-localnetwork-step1.png){:relative_height='95'}
+![](images/screenshots/add-localnetwork-step1.png){:relative_height='95'}
 
 # ローカルネットワークの作成 (2/5)
 
-![](images/add-localnetwork-step2.png){:relative_height='95'}
+![](images/screenshots/add-localnetwork-step2.png){:relative_height='95'}
 
 # ローカルネットワークの作成 (3/5)
 
-![](images/add-localnetwork-step3.png){:relative_height='95'}
+![](images/screenshots/add-localnetwork-step3.png){:relative_height='95'}
 
 # ローカルネットワークの作成 (4/5)
 
-![](images/add-localnetwork-step4.png){:relative_height='95'}
+![](images/screenshots/add-localnetwork-step4.png){:relative_height='95'}
 
 # ローカルネットワークの作成 (5/5)
 
-![](images/add-localnetwork-step5.png){:relative_height='95'}
+![](images/screenshots/add-localnetwork-step5.png){:relative_height='95'}
 
 
 
@@ -79,99 +81,99 @@ allotted_time
 
 # frontの作成 (1/5)
 
-![](images/add-vps-step1.png){:relative_height='95'}
+![](images/screenshots/add-vps-step1.png){:relative_height='95'}
 
 # frontの作成 (2/5)
 
-![](images/add-vps-step2.png){:relative_height='95'}
+![](images/screenshots/add-vps-step2.png){:relative_height='95'}
 
 # frontの作成 (3/5)
 
-![](images/add-vps-step3-front.png){:relative_height='95'}
+![](images/screenshots/add-vps-step3-front.png){:relative_height='95'}
 
 既定のテンプレートイメージで作成する。
 
 # frontの作成 (4/5)
 
-![](images/add-vps-step4.png){:relative_height='95'}
+![](images/screenshots/add-vps-step4.png){:relative_height='95'}
 
 # frontの作成 (5/5)
 
-![](images/add-vps-step5.png){:relative_height='95'}
+![](images/screenshots/add-vps-step5.png){:relative_height='95'}
 
 # frontの名前の設定
 
-![](images/add-vps-step14-rename.png){:relative_height='95'}
+![](images/screenshots/add-vps-step14-rename.png){:relative_height='95'}
 
 分かりやすいように「front」とラベルを付ける。
 
 # frontのIPアドレスの確認
 
-![](images/add-vps-step15-ipaddress.png){:relative_height='95'}
+![](images/screenshots/add-vps-step15-ipaddress.png){:relative_height='95'}
 
 以下の説明では203.0.113.1と仮定する。
 
 
 # frontのシャットダウン (1/3)
 
-![](images/add-vps-step6-shutdown.png){:relative_height='95'}
+![](images/screenshots/add-vps-step6-shutdown.png){:relative_height='95'}
 
 # frontのシャットダウン (2/3)
 
-![](images/add-vps-step7-shutdown.png){:relative_height='95'}
+![](images/screenshots/add-vps-step7-shutdown.png){:relative_height='95'}
 
 # frontのシャットダウン (3/3)
 
-![](images/add-vps-step8-shutdown.png){:relative_height='95'}
+![](images/screenshots/add-vps-step8-shutdown.png){:relative_height='95'}
 
 # frontのネットワークインターフェース設定 (1/5)
 
-![](images/add-vps-step9-setup.png){:relative_height='95'}
+![](images/screenshots/add-vps-step9-setup.png){:relative_height='95'}
 
 # frontのネットワークインターフェース設定 (2/5)
 
-![](images/add-vps-step10-setup.png){:relative_height='95'}
+![](images/screenshots/add-vps-step10-setup.png){:relative_height='95'}
 
 # frontのネットワークインターフェース設定 (3/5)
 
-![](images/add-vps-step11-setup.png){:relative_height='95'}
+![](images/screenshots/add-vps-step11-setup.png){:relative_height='95'}
 
 # frontのネットワークインターフェース設定 (4/5)
 
-![](images/add-vps-step12-setup.png){:relative_height='95'}
+![](images/screenshots/add-vps-step12-setup.png){:relative_height='95'}
 
 # frontのネットワークインターフェース設定 (5/5)
 
-![](images/add-vps-step13-setup.png){:relative_height='95'}
+![](images/screenshots/add-vps-step13-setup.png){:relative_height='95'}
 
 
 # frontの再起動 (1/4)
 
-![](images/setup-vps-step1.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step1.png){:relative_height='95'}
 
 # frontの再起動 (2/4)
 
-![](images/setup-vps-step2.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step2.png){:relative_height='95'}
 
 # frontの再起動 (3/4)
 
-![](images/setup-vps-step3.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step3.png){:relative_height='95'}
 
 # frontの再起動 (4/4)
 
-![](images/setup-vps-step4.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step4.png){:relative_height='95'}
 
 # frontの初期化 (1/6)
 
-![](images/setup-vps-step5.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step5.png){:relative_height='95'}
 
 # frontの初期化 (2/6)
 
-![](images/setup-vps-step6.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step6.png){:relative_height='95'}
 
 # frontの初期化 (3/6)
 
-![](images/setup-vps-step7.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step7.png){:relative_height='95'}
 
 ~~~
 root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
@@ -179,15 +181,15 @@ root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-hands
 
 # frontの初期化 (4/6)
 
-![](images/setup-vps-step8.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step8.png){:relative_height='95'}
 
 # frontの初期化 (5/6)
 
-![](images/setup-vps-step9.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step9.png){:relative_height='95'}
 
 # frontの初期化 (6/6)
 
-![](images/setup-vps-step10.png){:relative_height='95'}
+![](images/screenshots/setup-vps-step10.png){:relative_height='95'}
 
 ~~~
 root@back# su user
@@ -201,23 +203,23 @@ user@back$ passwd
 
 # backの作成 (1/2)
 
-![](images/add-vps-step1.png){:relative_height='95'}
+![](images/screenshots/add-vps-step1.png){:relative_height='95'}
 
 # backの作成 (2/2)
 
-![](images/add-vps-step3-back.png){:relative_height='95'}
+![](images/screenshots/add-vps-step3-back.png){:relative_height='95'}
 
 nginx, WordPress入りのテンプレートイメージを選択する。
 
 # backの名前の設定
 
-![](images/add-vps-step14-rename.png){:relative_height='95'}
+![](images/screenshots/add-vps-step14-rename.png){:relative_height='95'}
 
 分かりやすいように「back」とラベルを付ける。
 
 # backのIPアドレスの確認
 
-![](images/add-vps-step15-ipaddress.png){:relative_height='95'}
+![](images/screenshots/add-vps-step15-ipaddress.png){:relative_height='95'}
 
 以下の説明では203.0.113.2と仮定する。
 
@@ -254,7 +256,7 @@ user@back$ passwd
 
 # WordPressの動作確認 (1/3)
 
-![](images/setup-wp-step1.png){:relative_height='95'}
+![](images/screenshots/setup-wp-step1.png){:relative_height='95'}
 
 backのIPアドレスを指定してブラウザで開いてみる。
 初期設定の画面が出るので、適当に設定する。
@@ -263,11 +265,11 @@ backのIPアドレスを指定してブラウザで開いてみる。
 
 # WordPressの動作確認 (2/3)
 
-![](images/setup-wp-step2.png){:relative_height='95'}
+![](images/screenshots/setup-wp-step2.png){:relative_height='95'}
 
 # WordPressの動作確認 (3/3)
 
-![](images/setup-wp-step3.png){:relative_height='95'}
+![](images/screenshots/setup-wp-step3.png){:relative_height='95'}
 
 もう1度、backのIPアドレスを指定してブラウザで開いてみる。
 セットアップが完了したWordPressの画面が出る。
