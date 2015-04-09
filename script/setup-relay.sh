@@ -9,6 +9,12 @@ ACCEPT_PORT_TO=29999
 echo 'Setting up this computer as the "relay"...'
 
 
+echo 'Downloading scripts to configure connections...'
+
+curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/reset.sh
+chmod +x ~/reset.sh
+
+
 echo 'Creating a new user "user"...'
 
 # rootでログインせずに済むように、作業用のユーザーを作成する。

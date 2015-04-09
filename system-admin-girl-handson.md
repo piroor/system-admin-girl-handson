@@ -92,6 +92,7 @@ allotted_time
 ![](images/screenshots/add-vps-step3-front.png){:relative_height='95'}
 
 既定のテンプレートイメージで作成する。
+[メモ用シート](memo.md)にrootのパスワードを書き込んでおく。
 
 # frontの作成 (4/5)
 
@@ -112,6 +113,7 @@ allotted_time
 ![](images/screenshots/add-vps-step15-ipaddress.png){:relative_height='95'}
 
 以下の説明では203.0.113.1と仮定する。
+[メモ用シート](memo.md)にIPアドレスを書き込んでおく。
 
 
 # frontのシャットダウン (1/3)
@@ -196,6 +198,8 @@ root@back# su user
 user@back$ passwd
 ~~~
 
+[メモ用シート](memo.md)にuserのパスワードを書き込んでおく。
+
 
 # 社内専用サーバーにするVPSの用意
 
@@ -210,6 +214,7 @@ user@back$ passwd
 ![](images/screenshots/add-vps-step3-back.png){:relative_height='95'}
 
 nginx, WordPress入りのテンプレートイメージを選択する。
+[メモ用シート](memo.md)にrootのパスワードを書き込んでおく。
 
 # backの名前の設定
 
@@ -222,6 +227,7 @@ nginx, WordPress入りのテンプレートイメージを選択する。
 ![](images/screenshots/add-vps-step15-ipaddress.png){:relative_height='95'}
 
 以下の説明では203.0.113.2と仮定する。
+[メモ用シート](memo.md)にIPアドレスを書き込んでおく。
 
 
 # backのネットワーク設定
@@ -251,6 +257,8 @@ root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-hands
 root@back# su user
 user@back$ passwd
 ~~~
+
+[メモ用シート](memo.md)にuserのパスワードを書き込んでおく。
 
 
 
@@ -506,6 +514,7 @@ user@back$ ssh user@192.168.0.100
 
 
 さらに、新たな踏み台サーバーとして、relay（203.0.113.3と仮定）を用意する。
+[メモ用シート](memo.md)に各種情報を書き込んでおく。
 
 ~~~
 root@relay# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-relay.sh | bash
@@ -566,30 +575,28 @@ $ curl -L http://203.0.113.3:20080/
 
 # Case3-1: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからHTTP接続したい（より安全なやり方）
 
-新たな踏み台サーバーとして、plain-relay（203.0.113.4と仮定）を用意する。
+踏み台サーバーのplainに施していた、ポート開放などの設定を元に戻しておく。
 
 ~~~
-root@relay# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-plain-relay.sh | bash
-root@relay# su user
-user@relay$ passwd
+root@relay# ~/reset.sh
 ~~~
 
- * plain-relayのsshdは、GatewayPorts noでもよい。
- * plain-relayのiptablesは、指定のポートが解放されていなくてもよい。
- * front-plain-relay間の接続が切れたらお手上げ。（自動再接続させたいならautosshを使う）
+ * relayのsshdは、GatewayPorts noでもよい。
+ * relayのiptablesは、指定のポートが解放されていなくてもよい。
+ * front-relay間の接続が切れたらお手上げ。（自動再接続させたいならautosshを使う）
 
 （ネットワーク構成図）
 
-まず、frontからplain-relayへSSH接続して、リモートフォワードを設定する。
+まず、frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.4 -R 20080:192.168.0.110:80
+user@front$ ssh user@203.0.113.3 -R 20080:192.168.0.110:80
 ~~~
 
-次に、手元のPCからplain-relayへSSH接続して、ローカルフォワードを設定する。
+次に、手元のPCからrelayへSSH接続して、ローカルフォワードを設定する。
 
 ~~~
-$ ssh user@203.0.113.4 -L 10080:localhost:20080
+$ ssh user@203.0.113.3 -L 10080:localhost:20080
 ~~~
 
 手元のPCの別のコンソール：
