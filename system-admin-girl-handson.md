@@ -46,99 +46,103 @@ allotted_time
 
 
 
-# 踏み台にするVPSの作成 (1/5)
+# 踏み台にするVPSの用意
+
+「front」と呼ぶ事にする。
+
+# frontの作成 (1/5)
 
 ![](images/add-vps-step1.png){:relative_height='95'}
 
-# 踏み台にするVPSの作成 (2/5)
+# frontの作成 (2/5)
 
 ![](images/add-vps-step2.png){:relative_height='95'}
 
-# 踏み台にするVPSの作成 (3/5)
+# frontの作成 (3/5)
 
 ![](images/add-vps-step3-front.png){:relative_height='95'}
 
 既定のテンプレートイメージで作成する。
 
-# 踏み台にするVPSの作成 (4/5)
+# frontの作成 (4/5)
 
 ![](images/add-vps-step4.png){:relative_height='95'}
 
-# 踏み台にするVPSの作成 (5/5)
+# frontの作成 (5/5)
 
 ![](images/add-vps-step5.png){:relative_height='95'}
 
-# 踏み台にするVPSの名前の設定
+# frontの名前の設定
 
 ![](images/add-vps-step14-rename.png){:relative_height='95'}
 
 分かりやすいように「front」とラベルを付ける。
 
-# 踏み台にするVPSのIPアドレスの確認
+# frontのIPアドレスの確認
 
 ![](images/add-vps-step15-ipaddress.png){:relative_height='95'}
 
 以下の説明では203.0.113.1と仮定する。
 
 
-# 踏み台にするVPSのシャットダウン (1/3)
+# frontのシャットダウン (1/3)
 
 ![](images/add-vps-step6-shutdown.png){:relative_height='95'}
 
-# 踏み台にするVPSのシャットダウン (2/3)
+# frontのシャットダウン (2/3)
 
 ![](images/add-vps-step7-shutdown.png){:relative_height='95'}
 
-# 踏み台にするVPSのシャットダウン (3/3)
+# frontのシャットダウン (3/3)
 
 ![](images/add-vps-step8-shutdown.png){:relative_height='95'}
 
-# 踏み台にするVPSのネットワークインターフェース設定 (1/5)
+# frontのネットワークインターフェース設定 (1/5)
 
 ![](images/add-vps-step9-setup.png){:relative_height='95'}
 
-# 踏み台にするVPSのネットワークインターフェース設定 (2/5)
+# frontのネットワークインターフェース設定 (2/5)
 
 ![](images/add-vps-step10-setup.png){:relative_height='95'}
 
-# 踏み台にするVPSのネットワークインターフェース設定 (3/5)
+# frontのネットワークインターフェース設定 (3/5)
 
 ![](images/add-vps-step11-setup.png){:relative_height='95'}
 
-# 踏み台にするVPSのネットワークインターフェース設定 (4/5)
+# frontのネットワークインターフェース設定 (4/5)
 
 ![](images/add-vps-step12-setup.png){:relative_height='95'}
 
-# 踏み台にするVPSのネットワークインターフェース設定 (5/5)
+# frontのネットワークインターフェース設定 (5/5)
 
 ![](images/add-vps-step13-setup.png){:relative_height='95'}
 
 
-# 踏み台にするVPSの再起動 (1/4)
+# frontの再起動 (1/4)
 
 ![](images/setup-vps-step1.png){:relative_height='95'}
 
-# 踏み台にするVPSの再起動 (2/4)
+# frontの再起動 (2/4)
 
 ![](images/setup-vps-step2.png){:relative_height='95'}
 
-# 踏み台にするVPSの再起動 (3/4)
+# frontの再起動 (3/4)
 
 ![](images/setup-vps-step3.png){:relative_height='95'}
 
-# 踏み台にするVPSの再起動 (4/4)
+# frontの再起動 (4/4)
 
 ![](images/setup-vps-step4.png){:relative_height='95'}
 
-# 踏み台にするVPSの初期化 (1/6)
+# frontの初期化 (1/6)
 
 ![](images/setup-vps-step5.png){:relative_height='95'}
 
-# 踏み台にするVPSの初期化 (2/6)
+# frontの初期化 (2/6)
 
 ![](images/setup-vps-step6.png){:relative_height='95'}
 
-# 踏み台にするVPSの初期化 (3/6)
+# frontの初期化 (3/6)
 
 ![](images/setup-vps-step7.png){:relative_height='95'}
 
@@ -146,15 +150,15 @@ allotted_time
 root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
 ~~~
 
-# 踏み台にするVPSの初期化 (4/6)
+# frontの初期化 (4/6)
 
 ![](images/setup-vps-step8.png){:relative_height='95'}
 
-# 踏み台にするVPSの初期化 (5/6)
+# frontの初期化 (5/6)
 
 ![](images/setup-vps-step9.png){:relative_height='95'}
 
-# 踏み台にするVPSの初期化 (6/6)
+# frontの初期化 (6/6)
 
 ![](images/setup-vps-step10.png){:relative_height='95'}
 
@@ -164,31 +168,34 @@ user@back$ passwd
 ~~~
 
 
+# 社内専用サーバーにするVPSの用意
 
-# 社内専用サーバーにするVPSの作成 (1/2)
+「back」と呼ぶ事にする。
+
+# backの作成 (1/2)
 
 ![](images/add-vps-step1.png){:relative_height='95'}
 
-# 社内専用サーバーにするVPSの作成 (2/2)
+# backの作成 (2/2)
 
 ![](images/add-vps-step3-back.png){:relative_height='95'}
 
 nginx, WordPress入りのテンプレートイメージを選択する。
 
-# 社内専用サーバーにするVPSの名前の設定
+# backの名前の設定
 
 ![](images/add-vps-step14-rename.png){:relative_height='95'}
 
 分かりやすいように「back」とラベルを付ける。
 
-# 社内専用サーバーにするVPSのIPアドレスの確認
+# backのIPアドレスの確認
 
 ![](images/add-vps-step15-ipaddress){:relative_height='95'}
 
 以下の説明では203.0.113.2と仮定する。
 
 
-# 社内専用サーバーにするVPSのネットワーク設定
+# backのネットワーク設定
 
 frontと同じ手順で、プライベートネットワークに参加させる。
 
@@ -197,7 +204,7 @@ frontと同じ手順で、プライベートネットワークに参加させる
  3. 起動
 
 
-# 社内専用サーバーにするVPSの初期化 (1/2)
+# backの初期化 (1/2)
 
 frontと同じ手順で、スクリプトを使って初期化する。
 
@@ -207,7 +214,7 @@ frontと同じ手順で、スクリプトを使って初期化する。
 root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-back.sh | bash
 ~~~
 
-# 社内専用サーバーにするVPSの初期化 (2/2)
+# backの初期化 (2/2)
 
 初期化が完了したら、userユーザのパスワードを変更しておく。
 
@@ -243,7 +250,7 @@ backのIPアドレスを指定してブラウザで開いてみる。
 
 
 
-# 社内専用サーバーをインターネットから切り離す
+# backをインターネットから切り離す
 
 backにログインし、root権限でrootのホームにある設定変更用スクリプトを実行する。
 
