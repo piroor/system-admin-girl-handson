@@ -15,9 +15,11 @@ chmod +x ~/activate-eth0.sh
 
 
 echo 'Activating eth1...'
+# インターフェースを有効化するために必要な設定を作成する。
+# See: https://www.conoha.jp/guide/guide.php?g=36
 
+# NICのMACアドレスをifconfigの出力から取り出す。
 ETH1_MAC_ADDRESS=$(ifconfig eth1 | grep HWaddr | sed -r -e 's/^.* ([0-9A-Z:]+)/\1/')
-
 echo "Detected MAC Address of eth1: $ETH1_MAC_ADDRESS"
 
 ETH1_CONFIG=/etc/sysconfig/network-scripts/ifcfg-eth1
@@ -35,6 +37,11 @@ service network restart
 
 
 echo 'Disabling canonical plugin of WordPress...'
+# WordPressは初期状態で、アクセスされたときのURLを正規化するために、
+# あらかじめ決められたURLへリダイレクトするようになっている。
+# SSHポートフォワードを使って別のURLで見ると、リダイレクトが無限ループ
+# してしまうので、話を簡単にするために正規化の機能自体を無効化する。
+# See also: https://ja.forums.wordpress.org/topic/619
 
 WP_CONFIG=/var/www/vhosts/default/wp-settings.php
 WP_CONFIG_BACKUP=~/wp-settings.php.bak.$(date +%Y-%m-%d_%H-%M-%S)
