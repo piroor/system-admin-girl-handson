@@ -190,7 +190,7 @@ nginx, WordPress入りのテンプレートイメージを選択する。
 
 # backのIPアドレスの確認
 
-![](images/add-vps-step15-ipaddress){:relative_height='95'}
+![](images/add-vps-step15-ipaddress.png){:relative_height='95'}
 
 以下の説明では203.0.113.2と仮定する。
 
