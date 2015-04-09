@@ -24,64 +24,294 @@ allotted_time
 
 （ネットワーク構成図）
 
-# ローカルネットワークの作成
+# ローカルネットワークの作成 (1/5)
 
-（スクリーンショット）
+![](images/add-localnetwork-step1.png){:relative_height='95'}
 
-# VPSの作成（踏み台）
+# ローカルネットワークの作成 (2/5)
 
-（スクリーンショット）
+![](images/add-localnetwork-step2.png){:relative_height='95'}
 
- * 既定の設定
+# ローカルネットワークの作成 (3/5)
 
-# VPSの作成（社内専用サーバー）
+![](images/add-localnetwork-step3.png){:relative_height='95'}
 
-（スクリーンショット）
+# ローカルネットワークの作成 (4/5)
 
- * CentOS + nginx + wordpress
+![](images/add-localnetwork-step4.png){:relative_height='95'}
 
-# VPSの設定（踏み台）
+# ローカルネットワークの作成 (5/5)
 
-（スクリーンショット）
+![](images/add-localnetwork-step5.png){:relative_height='95'}
 
- * ローカルネットワークに接続
- * セットアップ用スクリプトを実行
+
+
+# 踏み台にするVPSの作成 (1/5)
+
+![](images/add-vps-step1.png){:relative_height='95'}
+
+# 踏み台にするVPSの作成 (2/5)
+
+![](images/add-vps-step2.png){:relative_height='95'}
+
+# 踏み台にするVPSの作成 (3/5)
+
+![](images/add-vps-step3-front.png){:relative_height='95'}
+
+既定の設定で作成する。
+
+# 踏み台にするVPSの作成 (4/5)
+
+![](images/add-vps-step4.png){:relative_height='95'}
+
+# 踏み台にするVPSの作成 (5/5)
+
+![](images/add-vps-step5.png){:relative_height='95'}
+
+# 踏み台にするVPSの名前の設定
+
+![](images/add-vps-step14-rename.png){:relative_height='95'}
+
+分かりやすいように「front」とラベルを付ける。
+
+# 踏み台にするVPSのIPアドレスの確認
+
+![](images/add-vps-step15-ipaddress){:relative_height='95'}
+
+以下の説明では203.0.113.1と仮定する。
+
+
+# 踏み台にするVPSの設定 (1/8)
+
+![](images/add-vps-step6-shutdown.png){:relative_height='95'}
+
+# 踏み台にするVPSの設定 (2/8)
+
+![](images/add-vps-step7-shutdown.png){:relative_height='95'}
+
+# 踏み台にするVPSの設定 (3/8)
+
+![](images/add-vps-step8-shutdown.png){:relative_height='95'}
+
+# 踏み台にするVPSの設定 (4/8)
+
+![](images/add-vps-step9-setup.png){:relative_height='95'}
+
+# 踏み台にするVPSの設定 (5/8)
+
+![](images/add-vps-step10-setup.png){:relative_height='95'}
+
+# 踏み台にするVPSの設定 (6/8)
+
+![](images/add-vps-step11-setup.png){:relative_height='95'}
+
+# 踏み台にするVPSの設定 (7/8)
+
+![](images/add-vps-step12-setup.png){:relative_height='95'}
+
+# 踏み台にするVPSの設定 (8/8)
+
+![](images/add-vps-step13-setup.png){:relative_height='95'}
+
+
+# 踏み台にするVPSの初期化 (1/10)
+
+![](images/setup-vps-step1.png){:relative_height='95'}
+
+# 踏み台にするVPSの初期化 (2/10)
+
+![](images/setup-vps-step2.png){:relative_height='95'}
+
+# 踏み台にするVPSの初期化 (3/10)
+
+![](images/setup-vps-step3.png){:relative_height='95'}
+
+# 踏み台にするVPSの初期化 (4/10)
+
+![](images/setup-vps-step4.png){:relative_height='95'}
+
+# 踏み台にするVPSの初期化 (5/10)
+
+![](images/setup-vps-step5.png){:relative_height='95'}
+
+# 踏み台にするVPSの初期化 (6/10)
+
+![](images/setup-vps-step6.png){:relative_height='95'}
+
+# 踏み台にするVPSの初期化 (7/10)
+
+![](images/setup-vps-step7.png){:relative_height='95'}
 
 ~~~
-root@front# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
-root@front# su user
-user@front$ passwd
+root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
 ~~~
 
-IPアドレスは203.0.113.1と仮定
+# 踏み台にするVPSの初期化 (8/10)
 
-# VPSの設定（社内専用サーバー）
+![](images/setup-vps-step8.png){:relative_height='95'}
 
-（スクリーンショット）
+# 踏み台にするVPSの初期化 (9/10)
 
- * ローカルネットワークに接続
- * セットアップ用スクリプトを実行
+![](images/setup-vps-step9.png){:relative_height='95'}
+
+# 踏み台にするVPSの初期化 (10/10)
+
+![](images/setup-vps-step10.png){:relative_height='95'}
 
 ~~~
-root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-back.sh | bash
 root@back# su user
 user@back$ passwd
 ~~~
 
-IPアドレスは203.0.113.2と仮定
 
-# 動作を確かめてみよう
 
-http://203.0.113.2/
+# 社内専用サーバーにするVPSの作成 (1/5)
 
-（スクリーンショット）
+![](images/add-vps-step1.png){:relative_height='95'}
 
- * WordPressの初期画面が表示されるか？
- * ささっと初期設定を済ませてしまう
+# 社内専用サーバーにするVPSの作成 (2/5)
 
-# 社内専用サーバーをインターネットから切り離そう
+![](images/add-vps-step2.png){:relative_height='95'}
 
- * 設定変更用スクリプトを実行
+# 社内専用サーバーにするVPSの作成 (3/5)
+
+![](images/add-vps-step3-back.png){:relative_height='95'}
+
+nginx, WordPressも一緒にセットアップする。
+
+# 社内専用サーバーにするVPSの作成 (4/5)
+
+![](images/add-vps-step4.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの作成 (5/5)
+
+![](images/add-vps-step5.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの名前の設定
+
+![](images/add-vps-step14-rename.png){:relative_height='95'}
+
+分かりやすいように「back」とラベルを付ける。
+
+# 社内専用サーバーにするVPSのIPアドレスの確認
+
+![](images/add-vps-step15-ipaddress){:relative_height='95'}
+
+以下の説明では203.0.113.2と仮定する。
+
+
+# 社内専用サーバーにするVPSの設定 (1/8)
+
+![](images/add-vps-step6-shutdown.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの設定 (2/8)
+
+![](images/add-vps-step7-shutdown.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの設定 (3/8)
+
+![](images/add-vps-step8-shutdown.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの設定 (4/8)
+
+![](images/add-vps-step9-setup.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの設定 (5/8)
+
+![](images/add-vps-step10-setup.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの設定 (6/8)
+
+![](images/add-vps-step11-setup.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの設定 (7/8)
+
+![](images/add-vps-step12-setup.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの設定 (8/8)
+
+![](images/add-vps-step13-setup.png){:relative_height='95'}
+
+
+# 社内専用サーバーにするVPSの初期化 (1/10)
+
+![](images/setup-vps-step1.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの初期化 (2/10)
+
+![](images/setup-vps-step2.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの初期化 (3/10)
+
+![](images/setup-vps-step3.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの初期化 (4/10)
+
+![](images/setup-vps-step4.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの初期化 (5/10)
+
+![](images/setup-vps-step5.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの初期化 (6/10)
+
+![](images/setup-vps-step6.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの初期化 (7/10)
+
+![](images/setup-vps-step7.png){:relative_height='95'}
+
+~~~
+root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-back.sh | bash
+~~~
+
+# 社内専用サーバーにするVPSの初期化 (8/10)
+
+![](images/setup-vps-step8.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの初期化 (9/10)
+
+![](images/setup-vps-step9.png){:relative_height='95'}
+
+# 社内専用サーバーにするVPSの初期化 (10/10)
+
+![](images/setup-vps-step10.png){:relative_height='95'}
+
+~~~
+root@back# su user
+user@back$ passwd
+~~~
+
+
+
+# WordPressの動作確認 (1/3)
+
+![](images/setup-wp-step1.png){:relative_height='95'}
+
+backのIPアドレスを指定してブラウザで開いてみる。
+初期設定の画面が出るので、適当に設定する。
+
+例： http://203.0.113.2/
+
+# WordPressの動作確認 (2/3)
+
+![](images/setup-wp-step2.png){:relative_height='95'}
+
+# WordPressの動作確認 (3/3)
+
+![](images/setup-wp-step3.png){:relative_height='95'}
+
+もう1度、backのIPアドレスを指定してブラウザで開いてみる。
+セットアップが完了したWordPressの画面が出る。
+
+例： http://203.0.113.2/
+
+
+
+
+# 社内専用サーバーをインターネットから切り離す
+
+backにログインし、root権限でrootのホームにある設定変更用スクリプトを実行する。
 
 ~~~
 # ~/deactivate-eth0.sh
