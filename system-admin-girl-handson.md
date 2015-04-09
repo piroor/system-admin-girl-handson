@@ -92,7 +92,7 @@ allotted_time
 ![](images/screenshots/add-vps-step3-front.png){:relative_height='95'}
 
 既定のテンプレートイメージで作成する。
-[メモ用シート](memo.md)にrootのパスワードを書き込んでおく。
+[メモ用シート](printable-sheets/memo.html)にrootのパスワードを書き込んでおく。
 
 # frontの作成 (4/5)
 
@@ -113,7 +113,7 @@ allotted_time
 ![](images/screenshots/add-vps-step15-ipaddress.png){:relative_height='95'}
 
 以下の説明では203.0.113.1と仮定する。
-[メモ用シート](memo.md)にIPアドレスを書き込んでおく。
+[メモ用シート](printable-sheets/memo.html)にIPアドレスを書き込んでおく。
 
 
 # frontのシャットダウン (1/3)
@@ -198,7 +198,7 @@ root@back# su user
 user@back$ passwd
 ~~~
 
-[メモ用シート](memo.md)にuserのパスワードを書き込んでおく。
+[メモ用シート](printable-sheets/memo.html)にuserのパスワードを書き込んでおく。
 
 
 # 社内専用サーバーにするVPSの用意
@@ -214,7 +214,7 @@ user@back$ passwd
 ![](images/screenshots/add-vps-step3-back.png){:relative_height='95'}
 
 nginx, WordPress入りのテンプレートイメージを選択する。
-[メモ用シート](memo.md)にrootのパスワードを書き込んでおく。
+[メモ用シート](printable-sheets/memo.html)にrootのパスワードを書き込んでおく。
 
 # backの名前の設定
 
@@ -227,7 +227,7 @@ nginx, WordPress入りのテンプレートイメージを選択する。
 ![](images/screenshots/add-vps-step15-ipaddress.png){:relative_height='95'}
 
 以下の説明では203.0.113.2と仮定する。
-[メモ用シート](memo.md)にIPアドレスを書き込んでおく。
+[メモ用シート](printable-sheets/memo.html)にIPアドレスを書き込んでおく。
 
 
 # backのネットワーク設定
@@ -258,7 +258,7 @@ root@back# su user
 user@back$ passwd
 ~~~
 
-[メモ用シート](memo.md)にuserのパスワードを書き込んでおく。
+[メモ用シート](printable-sheets/memo.html)にuserのパスワードを書き込んでおく。
 
 
 
@@ -514,7 +514,7 @@ user@back$ ssh user@192.168.0.100
 
 
 さらに、新たな踏み台サーバーとして、relay（203.0.113.3と仮定）を用意する。
-[メモ用シート](memo.md)に各種情報を書き込んでおく。
+[メモ用シート](printable-sheets/memo.html)に各種情報を書き込んでおく。
 
 ~~~
 root@relay# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-relay.sh | bash
