@@ -223,7 +223,7 @@ $ curl -L "http://192.168.1.10:10080/wp-admin/install.php"
 （ネットワーク構成図）
 
 手元のPCの調子がおかしいので、社内にいる大野先輩に遠隔操作でトラブルシューティングしてもらう、というような場面。
-手元のPCにはguestというユーザーを作成済みとする。
+手元のPCにはguestというユーザーを作成済みで、パスワード認証できるものとする。
 
 手元のPC：
 
@@ -235,7 +235,7 @@ $ ssh user@203.0.113.1 -R 20022:localhost:22
 
 ~~~
 user@back$ ssh user@192.168.0.100
-user@front$ ssh guest@localhost -p 20022
+user@front$ ssh -p 20022 guest@localhost
 ~~~
 
 （概念図）
@@ -249,7 +249,7 @@ user@back$ ssh user@192.168.0.100 -R 192.168.0.100:20022:localhost:22
 社内にあるコンピューター（back）
 
 ~~~
-user@back$ ssh guest@192.168.0.100 -p 20022
+user@back$ ssh -p 20022 guest@192.168.0.100
 ~~~
 
 （概念図）
