@@ -43,6 +43,8 @@ service network restart
 
 echo "Allowing accesses for all ports $ACCEPT_PORT_FROM to $ACCEPT_PORT_TO..."
 # iptablesの設定を追加して、ポートを開放する。
+# リモートフォワードで他のコンピュータからの接続を受け付けるためには、
+# ポートが開放されている必要がある。
 
 IPTABLES_CONFIG=/etc/sysconfig/iptables
 IPTABLES_CONFIG_BACKUP=~/iptables.bak.$(date +%Y-%m-%d_%H-%M-%S)
