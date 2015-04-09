@@ -23,6 +23,7 @@ chmod 600 ~user/.ssh/authorized_keys
 
 echo 'Configuring sshd...'
 # SSH経由での直接のrootログインを禁止する。
+# パスワード認証を許可する。（話を簡単にするため）
 
 SSHD_CONFIG=/etc/ssh/sshd_config
 SSHD_CONFIG_BACKUP=~/sshd_config.bak.$(date +%Y-%m-%d_%H-%M-%S)
@@ -30,6 +31,8 @@ SSHD_CONFIG_BACKUP=~/sshd_config.bak.$(date +%Y-%m-%d_%H-%M-%S)
 mv $SSHD_CONFIG $SSHD_CONFIG_BACKUP
 cat $SSHD_CONFIG_BACKUP | \
   sed -r -e 's/^# *PermitRootLogin +yes/PermitRootLogin no/' \
+         -e 's/^( *PasswordAuthentication +no)/#\1/' \
+         -e 's/^#( *PasswordAuthentication +yes)/\1/' \
   > $SSHD_CONFIG
 
 service sshd restart

@@ -28,14 +28,6 @@ allotted_time
 
 （スクリーンショット）
 
-# 鍵ペアの作成
-
-（スクリーンショット）
-
-# エージェントフォワードの設定
-
-http://qiita.com/isaoshimizu/items/84ac5a0b1d42b9d355cf
-
 # VPSの作成（踏み台）
 
 （スクリーンショット）
@@ -99,26 +91,43 @@ http://qiita.com/isaoshimizu/items/84ac5a0b1d42b9d355cf
 （概念図）
 
 
+# Case0: ポートフォワードが必要ないケース
 
-# Case0; 社外にあるPCから社内専用のサーバーにSSH接続したい
+# Case0-1: 社外にあるPCから社内専用のサーバーにSSH接続したい
 
 （ネットワーク構成図）
 
-これは、ポートフォワーディングが必要ないケース。
 
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -i .ssh/conoha
+$ ssh user@203.0.113.1
 ~~~
 
 ログイン先の踏み台サーバー（front）：
 
 ~~~
-$ ssh user@192.168.0.110 -i .ssh/conoha
+user@front$ ssh user@192.168.0.110
 ~~~
 
 （概念図）
+
+
+# Case0-2: 社外にあるPCから社内専用のサーバーにSCPでファイルをアップロードしたい（または、ファイルをダウンロードしたい）
+
+（ネットワーク構成図）
+
+手元のPC：
+
+~~~
+$ scp ~/myfile.zip user@203.0.113.1:/tmp/
+$ ssh user@203.0.113.1
+user@front$ scp /tmp/myfile.zip user@localhost:/path/to/destination/directory/
+~~~
+
+（概念図）
+
+一旦リモートのサーバに置いてから、もう1度コピーすることになる。
 
 
 
@@ -127,19 +136,21 @@ $ ssh user@192.168.0.110 -i .ssh/conoha
 （概念図）
 
 
-# Case1-1: 社外にあるPCから社内専用のサーバーにSCPでファイルをアップロードしたい（または、ファイルをダウンロードしたい）
+# Case1-1: 社外にあるPCから社内専用のサーバーにSCPで直接ファイルをアップロードしたい（または、ファイルをダウンロードしたい）
 
 （ネットワーク構成図）
 
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -i .ssh/conoha -L 10022:192.168.0.110:22
+$ ssh user@203.0.113.1 -L 10022:192.168.0.110:22
 $ scp -P 10022 ~/myfile.zip user@localhost:/path/to/destination/directory/
 $ scp -P 10022 user@localhost:/path/to/file ~/
 ~~~
 
 （概念図）
+
+大量のファイルを転送するならこの方がラク。
 
 
 
@@ -152,7 +163,7 @@ $ scp -P 10022 user@localhost:/path/to/file ~/
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -i .ssh/conoha -L 10080:192.168.0.110:80
+$ ssh user@203.0.113.1 -L 10080:192.168.0.110:80
 ~~~
 
 手元のPCの別のコンソール：
@@ -165,14 +176,14 @@ $ curl -L "http://localhost:10080/"
 
 
 
-# Case1-2': 社外にある他のPCからも社内専用のサーバーにHTTP接続したい
+# Case1-3: 社外にある他のPCからも社内専用のサーバーにHTTP接続したい
 
 （ネットワーク構成図）
 
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -i .ssh/conoha -L 10080:192.168.0.110:80 -g
+$ ssh user@203.0.113.1 -L 10080:192.168.0.110:80 -g
 ~~~
 
 同一セグメント内にある他のPC：
@@ -201,14 +212,14 @@ $ curl -L "http://192.168.1.10:10080/wp-admin/install.php"
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -i .ssh/conoha  -R 20022:localhost:22
+$ ssh user@203.0.113.1 -R 20022:localhost:22
 ~~~
 
 社内にあるコンピューター（back）
 
 ~~~
-ohno@back$ ssh ohno@192.168.0.100
-ohno@front$ ssh guest@localhost -p 20022
+user@back$ ssh user@192.168.0.100
+user@front$ ssh guest@localhost -p 20022
 ~~~
 
 （概念図）
@@ -216,13 +227,13 @@ ohno@front$ ssh guest@localhost -p 20022
 別解
 
 ~~~
-ohno@back$ ssh ohno@192.168.0.100 -i .ssh/conoha  -R 192.168.0.100:20022:localhost:22
+user@back$ ssh user@192.168.0.100 -R 192.168.0.100:20022:localhost:22
 ~~~
 
 社内にあるコンピューター（back）
 
 ~~~
-ohno@back$ ssh guest@192.168.0.100 -p 20022
+user@back$ ssh guest@192.168.0.100 -p 20022
 ~~~
 
 （概念図）
@@ -237,7 +248,7 @@ http://rabbit-shocker.org/ja/rabbirack/
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -i .ssh/conoha -R 203.0.113.1:20102:localhost:10102
+$ ssh user@203.0.113.1 -R 203.0.113.1:20102:localhost:10102
 ~~~
 
 手元の携帯端末
@@ -272,14 +283,14 @@ root@front# ./disallow-ssh.sh
 frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.2 -i .ssh/conoha -R 20022:192.168.0.110:22
+user@front$ ssh user@203.0.113.2 -R 20022:192.168.0.110:22
 ~~~
 
 次に、手元のPCからrelayへSSH接続する。
 そうしたら、20022番ポートでSSH接続する。
 
 ~~~
-$ ssh user@203.0.113.2 -i .ssh/conoha
+$ ssh user@203.0.113.2
 user@front2$ ssh localhost -p 20022
 ~~~
 
@@ -293,13 +304,13 @@ user@front2$ ssh localhost -p 20022
 frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.2 -i .ssh/conoha -R 203.0.113.1:20080:192.168.0.110:80
+user@front$ ssh user@203.0.113.2 -R 203.0.113.1:20080:192.168.0.110:80
 ~~~
 
 手元のPC：
 
 ~~~
-$ curl -L "http://203.0.113.2:20080/"
+$ curl -L http://203.0.113.2:20080/
 ~~~
 
 （概念図）
@@ -332,19 +343,19 @@ $ curl -L "http://203.0.113.2:20080/"
 まず、frontからplain-relayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.3 -i .ssh/conoha -R 20080:192.168.0.110:80
+user@front$ ssh user@203.0.113.3 -R 20080:192.168.0.110:80
 ~~~
 
 次に、手元のPCからplain-relayへSSH接続して、ローカルフォワードを設定する。
 
 ~~~
-$ ssh user@203.0.113.3 -i .ssh/conoha -L 10080:localhost:20080
+$ ssh user@203.0.113.3 -L 10080:localhost:20080
 ~~~
 
 手元のPCの別のコンソール：
 
 ~~~
-$ curl -L "http://localhost:10080/"
+$ curl -L http://localhost:10080/
 ~~~
 
 （概念図）

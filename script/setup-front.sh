@@ -76,6 +76,7 @@ service iptables restart
 
 echo 'Configuring sshd...'
 # SSH経由での直接のrootログインを禁止する。
+# パスワード認証を許可する。（話を簡単にするため）
 # リモートフォワードでループバック以外のアドレスでもバインドを許可する。
 # See also: http://qiita.com/FGtatsuro/items/e2767fa041c96a2bae1f
 #           http://blog.cles.jp/item/5699
@@ -86,6 +87,8 @@ SSHD_CONFIG_BACKUP=~/sshd_config.bak.$(date +%Y-%m-%d_%H-%M-%S)
 mv $SSHD_CONFIG $SSHD_CONFIG_BACKUP
 cat $SSHD_CONFIG_BACKUP | \
   sed -r -e 's/^# *PermitRootLogin +yes/PermitRootLogin no/' \
+         -e 's/^( *PasswordAuthentication +no)/#\1/' \
+         -e 's/^#( *PasswordAuthentication +yes)/\1/' \
          -e 's/^# *GatewayPorts +no/GatewayPorts clientspecified/' \
   > $SSHD_CONFIG
 
