@@ -20,7 +20,10 @@ chmod +x ~/disallow-ssh.sh
 
 
 echo 'Activating eth1...'
+# インターフェースを有効化するために必要な設定を作成する。
+# See: https://www.conoha.jp/guide/guide.php?g=36
 
+# NICのMACアドレスをifconfigの出力から取り出す。
 ETH1_MAC_ADDRESS=$(ifconfig eth1 | grep HWaddr | sed -r -e 's/^.* ([0-9A-Z:]+)/\1/')
 
 echo "Detected MAC Address of eth1: $ETH1_MAC_ADDRESS"
@@ -40,6 +43,7 @@ service network restart
 
 
 echo "Allowing accesses for all ports $ACCEPT_PORT_FROM to $ACCEPT_PORT_TO..."
+# iptablesの設定を追加して、ポートを開放する。
 
 IPTABLES_CONFIG=/etc/sysconfig/iptables
 IPTABLES_CONFIG_BACKUP=~/iptables.bak.$(date +%Y-%m-%d_%H-%M-%S)
@@ -55,6 +59,9 @@ service iptables restart
 
 
 echo 'Activating port-forwarding from remote computers...'
+# リモートフォワードでループバック以外のアドレスでもバインドを許可する。
+# See also: http://qiita.com/FGtatsuro/items/e2767fa041c96a2bae1f
+#           http://blog.cles.jp/item/5699
 
 SSHD_CONFIG=/etc/ssh/sshd_config
 SSHD_CONFIG_BACKUP=~/sshd_config.bak.$(date +%Y-%m-%d_%H-%M-%S)
