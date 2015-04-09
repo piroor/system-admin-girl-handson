@@ -14,6 +14,21 @@ curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/maste
 chmod +x ~/activate-eth0.sh
 
 
+echo 'Creating a new user "user"...'
+
+# rootでログインせずに済むように、作業用のユーザーを作成する。
+# 名前は「user」、パスワードも「user」。
+# ログイン後に自分でpasswdコマンドを実行してパスワードを変更する事を強く推奨。
+useradd user
+echo "user" | passwd user --stdin
+
+# 鍵認証できるように、公開鍵の設定をしておく。
+mkdir -p ~user/.ssh
+cp ~/.ssh/authorized_keys ~user/.ssh/
+chown -R user:user ~user/.ssh
+chmod 600 ~user/.ssh/authorized_keys
+
+
 echo 'Activating eth1...'
 # インターフェースを有効化するために必要な設定を作成する。
 # See: https://www.conoha.jp/guide/guide.php?g=36
@@ -34,6 +49,20 @@ echo 'ONBOOT="yes"'                  >> $ETH1_CONFIG
 
 echo 'Restarting interfaces...'
 service network restart
+
+
+echo 'Configuring sshd...'
+# SSH経由での直接のrootログインを禁止する。
+
+SSHD_CONFIG=/etc/ssh/sshd_config
+SSHD_CONFIG_BACKUP=~/sshd_config.bak.$(date +%Y-%m-%d_%H-%M-%S)
+
+mv $SSHD_CONFIG $SSHD_CONFIG_BACKUP
+cat $SSHD_CONFIG_BACKUP | \
+  sed -r -e 's/^# *PermitRootLogin +yes/PermitRootLogin no/' \
+  > $SSHD_CONFIG
+
+service sshd restart
 
 
 echo 'Disabling canonical plugin of WordPress...'

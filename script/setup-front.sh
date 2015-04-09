@@ -19,6 +19,21 @@ curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/maste
 chmod +x ~/disallow-ssh.sh
 
 
+echo 'Creating a new user "user"...'
+
+# rootでログインせずに済むように、作業用のユーザーを作成する。
+# 名前は「user」、パスワードも「user」。
+# ログイン後に自分でpasswdコマンドを実行してパスワードを変更する事を強く推奨。
+useradd user
+echo "user" | passwd user --stdin
+
+# 鍵認証できるように、公開鍵の設定をしておく。
+mkdir -p ~user/.ssh
+cp ~/.ssh/authorized_keys ~user/.ssh/
+chown -R user:user ~user/.ssh
+chmod 600 ~user/.ssh/authorized_keys
+
+
 echo 'Activating eth1...'
 # インターフェースを有効化するために必要な設定を作成する。
 # See: https://www.conoha.jp/guide/guide.php?g=36
@@ -59,7 +74,8 @@ cat $IPTABLES_CONFIG_BACKUP | \
 service iptables restart
 
 
-echo 'Activating port-forwarding from remote computers...'
+echo 'Configuring sshd...'
+# SSH経由での直接のrootログインを禁止する。
 # リモートフォワードでループバック以外のアドレスでもバインドを許可する。
 # See also: http://qiita.com/FGtatsuro/items/e2767fa041c96a2bae1f
 #           http://blog.cles.jp/item/5699
@@ -69,7 +85,8 @@ SSHD_CONFIG_BACKUP=~/sshd_config.bak.$(date +%Y-%m-%d_%H-%M-%S)
 
 mv $SSHD_CONFIG $SSHD_CONFIG_BACKUP
 cat $SSHD_CONFIG_BACKUP | \
-  sed -r -e 's/^#? *GatewayPorts +no/GatewayPorts clientspecified/' \
+  sed -r -e 's/^# *PermitRootLogin +yes/PermitRootLogin no/' \
+         -e 's/^# *GatewayPorts +no/GatewayPorts clientspecified/' \
   > $SSHD_CONFIG
 
 service sshd restart
