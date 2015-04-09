@@ -25,7 +25,6 @@ echo 'Activating eth1...'
 
 # NICのMACアドレスをifconfigの出力から取り出す。
 ETH1_MAC_ADDRESS=$(ifconfig eth1 | grep HWaddr | sed -r -e 's/^.* ([0-9A-Z:]+)/\1/')
-
 echo "Detected MAC Address of eth1: $ETH1_MAC_ADDRESS"
 
 ETH1_CONFIG=/etc/sysconfig/network-scripts/ifcfg-eth1
