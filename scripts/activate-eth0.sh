@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run as root, like:
-#   # bash ./activate-eth0.sh
+#   # ~/activate-eth0.sh
 
 
 echo 'Activating eth0...'

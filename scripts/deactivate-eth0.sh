@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run as root, like:
-#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/deactivate-eth0.sh | bash
+#   # ~/deactivate-eth0.sh
 
 
 echo 'Deactivating eth0...'

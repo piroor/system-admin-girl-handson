@@ -178,7 +178,7 @@ allotted_time
 ![](images/screenshots/setup-vps-step7.png){:relative_height='95'}
 
 ~~~
-root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
+root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-front.sh | bash
 ~~~
 
 # frontの初期化 (4/6)
@@ -246,7 +246,7 @@ frontと同じ手順で、スクリプトを使って初期化する。
 スクリプトのダウンロードURLがfront用とは異なるので注意する。
 
 ~~~
-root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-back.sh | bash
+root@back# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-back.sh | bash
 ~~~
 
 # backの初期化 (2/2)
@@ -517,7 +517,7 @@ user@back$ ssh user@192.168.0.100
 [メモ用シート](memo.md)に各種情報を書き込んでおく。
 
 ~~~
-root@relay# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-relay.sh | bash
+root@relay# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-relay.sh | bash
 root@relay# su user
 user@relay$ passwd
 ~~~

@@ -1,22 +1,20 @@
 #!/bin/bash
 # Run as root, like:
-#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-front.sh | bash
+#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-back.sh | bash
 
-STATIC_IP_ADDRESS=192.168.0.100
-ACCEPT_PORT_FROM=20000
-ACCEPT_PORT_TO=29999
+STATIC_IP_ADDRESS=192.168.0.110
 
 
-echo 'Setting up this computer as the "front"...'
+echo 'Setting up this computer as the "back"...'
 
 
-echo 'Downloading scripts to configure connections...'
+echo 'Downloading scripts to modify network interfaces...'
 
-curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/allow-ssh.sh
-chmod +x ~/allow-ssh.sh
+curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/activate-eth0.sh
+chmod +x ~/activate-eth0.sh
 
-curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/disallow-ssh.sh
-chmod +x ~/disallow-ssh.sh
+curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/deactivate-eth0.sh
+chmod +x ~/deactivate-eth0.sh
 
 
 echo 'Creating a new user "user"...'
@@ -59,30 +57,9 @@ echo 'Restarting interfaces...'
 service network restart
 
 
-echo "Allowing accesses for all ports $ACCEPT_PORT_FROM to $ACCEPT_PORT_TO..."
-# iptablesの設定を追加して、ポートを開放する。
-# リモートフォワードで他のコンピュータからの接続を受け付けるためには、
-# ポートが開放されている必要がある。
-
-IPTABLES_CONFIG=/etc/sysconfig/iptables
-IPTABLES_CONFIG_BACKUP=~/iptables.bak.$(date +%Y-%m-%d_%H-%M-%S)
-IPTABLES_ACCEPT_LINE="-A INPUT -m state --state NEW -m tcp -p tcp --dport $ACCEPT_PORT_FROM:$ACCEPT_PORT_TO -j ACCEPT"
-
-mv $IPTABLES_CONFIG $IPTABLES_CONFIG_BACKUP
-cat $IPTABLES_CONFIG_BACKUP | \
-  sed -r -e "s/$IPTABLES_ACCEPT_LINE//" \
-         -e "/.+--dport 22 .+$/a $IPTABLES_ACCEPT_LINE" \
-  > $IPTABLES_CONFIG
-
-service iptables restart
-
-
 echo 'Configuring sshd...'
 # SSH経由での直接のrootログインを禁止する。
 # パスワード認証を許可する。（話を簡単にするため）
-# リモートフォワードでループバック以外のアドレスでもバインドを許可する。
-# See also: http://qiita.com/FGtatsuro/items/e2767fa041c96a2bae1f
-#           http://blog.cles.jp/item/5699
 
 SSHD_CONFIG=/etc/ssh/sshd_config
 SSHD_CONFIG_BACKUP=~/sshd_config.bak.$(date +%Y-%m-%d_%H-%M-%S)
@@ -92,10 +69,25 @@ cat $SSHD_CONFIG_BACKUP | \
   sed -r -e 's/^# *PermitRootLogin +yes/PermitRootLogin no/' \
          -e 's/^( *PasswordAuthentication +no)/#\1/' \
          -e 's/^#( *PasswordAuthentication +yes)/\1/' \
-         -e 's/^#? *GatewayPorts +no/GatewayPorts clientspecified/' \
   > $SSHD_CONFIG
 
 service sshd restart
+
+
+echo 'Disabling canonical plugin of WordPress...'
+# WordPressは初期状態で、アクセスされたときのURLを正規化するために、
+# あらかじめ決められたURLへリダイレクトするようになっている。
+# SSHポートフォワードを使って別のURLで見ると、リダイレクトが無限ループ
+# してしまうので、話を簡単にするために正規化の機能自体を無効化する。
+# See also: https://ja.forums.wordpress.org/topic/619
+
+WP_CONFIG=/var/www/vhosts/default/wp-settings.php
+WP_CONFIG_BACKUP=~/wp-settings.php.bak.$(date +%Y-%m-%d_%H-%M-%S)
+
+mv $WP_CONFIG $WP_CONFIG_BACKUP
+cat $WP_CONFIG_BACKUP | \
+  sed -r -e 's;(^[^/].+canonical.php);// \1;' \
+  > $WP_CONFIG
 
 
 echo 'Done.'

@@ -1,18 +1,22 @@
 #!/bin/bash
 # Run as root, like:
-#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-relay.sh | bash
+#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-front.sh | bash
 
+STATIC_IP_ADDRESS=192.168.0.100
 ACCEPT_PORT_FROM=20000
 ACCEPT_PORT_TO=29999
 
 
-echo 'Setting up this computer as the "relay"...'
+echo 'Setting up this computer as the "front"...'
 
 
 echo 'Downloading scripts to configure connections...'
 
-curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/reset.sh
-chmod +x ~/reset.sh
+curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/allow-ssh.sh
+chmod +x ~/allow-ssh.sh
+
+curl -O https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/disallow-ssh.sh
+chmod +x ~/disallow-ssh.sh
 
 
 echo 'Creating a new user "user"...'
@@ -31,6 +35,28 @@ mkdir -p ~user/.ssh
 cp ~/.ssh/authorized_keys ~user/.ssh/
 chown -R user:user ~user/.ssh
 chmod 600 ~user/.ssh/authorized_keys
+
+
+echo 'Activating eth1...'
+# インターフェースを有効化するために必要な設定を作成する。
+# See: https://www.conoha.jp/guide/guide.php?g=36
+
+# NICのMACアドレスをifconfigの出力から取り出す。
+ETH1_MAC_ADDRESS=$(ifconfig eth1 | grep HWaddr | sed -r -e 's/^.* ([0-9A-Z:]+)/\1/')
+echo "Detected MAC Address of eth1: $ETH1_MAC_ADDRESS"
+
+ETH1_CONFIG=/etc/sysconfig/network-scripts/ifcfg-eth1
+echo 'DEVICE="eth1"'                 >  $ETH1_CONFIG
+echo "HWADDR=\"$ETH1_MAC_ADDRESS\""  >> $ETH1_CONFIG
+echo 'BOOTPROTO="static"'            >> $ETH1_CONFIG
+echo "IPADDR=\"$STATIC_IP_ADDRESS\"" >> $ETH1_CONFIG
+echo 'NETMASK="255.255.255.0"'       >> $ETH1_CONFIG
+echo 'NM_CONTROLLED="no"'            >> $ETH1_CONFIG
+echo 'TYPE="Ethernet"'               >> $ETH1_CONFIG
+echo 'ONBOOT="yes"'                  >> $ETH1_CONFIG
+
+echo 'Restarting interfaces...'
+service network restart
 
 
 echo "Allowing accesses for all ports $ACCEPT_PORT_FROM to $ACCEPT_PORT_TO..."

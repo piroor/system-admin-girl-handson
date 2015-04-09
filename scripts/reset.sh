@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run as root, like:
-#   # curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/reset.sh | bash
+#   # ~/reset.sh
 
 
 echo 'Disallowing accesses for large number ports...'
