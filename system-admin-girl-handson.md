@@ -243,7 +243,7 @@ user@front$ ssh -p 20022 guest@localhost
 別解
 
 ~~~
-user@back$ ssh user@192.168.0.100 -R 192.168.0.100:20022:localhost:22
+user@back$ ssh user@192.168.0.100 -R 0.0.0.0:20022:localhost:22
 ~~~
 
 社内にあるコンピューター（back）
@@ -264,7 +264,7 @@ http://rabbit-shocker.org/ja/rabbirack/
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -R 203.0.113.1:20102:localhost:10102
+$ ssh user@203.0.113.1 -R 0.0.0.0:20102:localhost:10102
 ~~~
 
 手元の携帯端末
@@ -287,27 +287,46 @@ http://203.0.113.1:20102/
 frontに対して外部からのSSH接続を禁止して、「外には出て行けるが、中には入れない」ネットワークを用意する。
 
 ~~~
-user@front$ su
 root@front# ./disallow-ssh.sh
 ~~~
 
-さらに、新たな踏み台サーバーとして、relay（203.0.113.2と仮定）を用意する。
-これはsetup-relay.shでセットアップする。
+確かめてみる。
+
+~~~
+$ ssh user@203.0.113.2
+~~~
+
+これはログインできない。
+
+~~~
+user@back$ ssh user@192.168.0.100
+~~~
+
+これはログインできる。
+
+
+さらに、新たな踏み台サーバーとして、relay（203.0.113.3と仮定）を用意する。
+
+~~~
+root@relay# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-relay.sh | bash
+root@relay# su user
+user@relay$ passwd
+~~~
 
 （ネットワーク構成図）
 
 frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.2 -R 20022:192.168.0.110:22
+user@front$ ssh user@203.0.113.3 -R 20022:192.168.0.110:22
 ~~~
 
 次に、手元のPCからrelayへSSH接続する。
-そうしたら、20022番ポートでSSH接続する。
+そうしたら、localhostの20022番ポートにSSH接続する。
 
 ~~~
-$ ssh user@203.0.113.2
-user@front2$ ssh localhost -p 20022
+$ ssh user@203.0.113.3
+user@front2$ ssh user@localhost -p 20022
 ~~~
 
 （概念図）
@@ -320,13 +339,13 @@ user@front2$ ssh localhost -p 20022
 frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.2 -R 203.0.113.1:20080:192.168.0.110:80
+user@front$ ssh user@203.0.113.3 -R 0.0.0.0:20080:192.168.0.110:80
 ~~~
 
 手元のPC：
 
 ~~~
-$ curl -L http://203.0.113.2:20080/
+$ curl -L http://203.0.113.3:20080/
 ~~~
 
 （概念図）
@@ -347,8 +366,13 @@ $ curl -L http://203.0.113.2:20080/
 
 # Case3-1: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからHTTP接続したい（より安全なやり方）
 
-新たな踏み台サーバーとして、plain-relay（203.0.113.3と仮定）を用意する。
-これはsetup-plain-relay.shでセットアップする。
+新たな踏み台サーバーとして、plain-relay（203.0.113.4と仮定）を用意する。
+
+~~~
+root@relay# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/script/setup-plain-relay.sh | bash
+root@relay# su user
+user@relay$ passwd
+~~~
 
  * plain-relayのsshdは、GatewayPorts noでもよい。
  * plain-relayのiptablesは、指定のポートが解放されていなくてもよい。
@@ -359,13 +383,13 @@ $ curl -L http://203.0.113.2:20080/
 まず、frontからplain-relayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.3 -R 20080:192.168.0.110:80
+user@front$ ssh user@203.0.113.4 -R 20080:192.168.0.110:80
 ~~~
 
 次に、手元のPCからplain-relayへSSH接続して、ローカルフォワードを設定する。
 
 ~~~
-$ ssh user@203.0.113.3 -L 10080:localhost:20080
+$ ssh user@203.0.113.4 -L 10080:localhost:20080
 ~~~
 
 手元のPCの別のコンソール：
