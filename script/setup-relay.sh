@@ -66,7 +66,7 @@ cat $SSHD_CONFIG_BACKUP | \
   sed -r -e 's/^# *PermitRootLogin +yes/PermitRootLogin no/' \
          -e 's/^( *PasswordAuthentication +no)/#\1/' \
          -e 's/^#( *PasswordAuthentication +yes)/\1/' \
-         -e 's/^# *GatewayPorts +no/GatewayPorts clientspecified/' \
+         -e 's/^#? *GatewayPorts +no/GatewayPorts clientspecified/' \
   > $SSHD_CONFIG
 
 service sshd restart
