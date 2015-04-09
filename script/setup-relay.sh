@@ -10,6 +10,9 @@ echo 'Setting up this computer as the "relay"...'
 
 
 echo "Allowing accesses for all ports $ACCEPT_PORT_FROM to $ACCEPT_PORT_TO..."
+# iptablesの設定を追加して、ポートを開放する。
+# リモートフォワードで他のコンピュータからの接続を受け付けるためには、
+# ポートが開放されている必要がある。
 
 IPTABLES_CONFIG=/etc/sysconfig/iptables
 IPTABLES_CONFIG_BACKUP=~/iptables.bak.$(date +%Y-%m-%d_%H-%M-%S)
@@ -25,6 +28,9 @@ service iptables restart
 
 
 echo 'Activating port-forwarding from remote computers...'
+# リモートフォワードでループバック以外のアドレスでもバインドを許可する。
+# See also: http://qiita.com/FGtatsuro/items/e2767fa041c96a2bae1f
+#           http://blog.cles.jp/item/5699
 
 SSHD_CONFIG=/etc/ssh/sshd_config
 SSHD_CONFIG_BACKUP=~/sshd_config.bak.$(date +%Y-%m-%d_%H-%M-%S)
