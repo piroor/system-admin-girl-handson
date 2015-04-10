@@ -83,8 +83,7 @@ allotted_time
 
 # 踏み台にする中継サーバー
 
-「front」と
-呼ぶことにします
+![「front」と呼ぶことにします](images/01-setup-network-front.png){:relative_width='80'}
 
 # frontの作成 (1/5)
 
@@ -226,7 +225,7 @@ userのパスワードを書き込んでおく。
 
 # 社内専用Webサーバー
 
-「back」と呼ぶことにします
+![「back」と呼ぶことにします](images/01-setup-network-back.png){:relative_width='80'}
 
 # backの作成 (1/2)
 
@@ -746,17 +745,14 @@ $ curl http://localhost:10080/
 
 # まとめ：ローカルフォワード
 
-![手元から接続先ネットワークに
-パケットを送る](images/matome-local.png){:relative_width='80'}
+![](images/matome-local.png){:relative_width='80'}
 
 # まとめ：リモートフォワード
 
-![接続先ネットワークから
-手元にパケットを送る](images/matome-remote.png){:relative_width='80'}
+![](images/matome-remote.png){:relative_width='80'}
 
-# まとめ：連携
+# まとめ：両者の連携
 
-![手元から最終目的地に
-パケットを送る](images/matome-both.png){:relative_width='80'}
+![](images/matome-both.png){:relative_width='80'}
 
 
