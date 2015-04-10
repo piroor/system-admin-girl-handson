@@ -559,7 +559,7 @@ $ ssh user@relay
 ![](images/case2-2-3.png){:relative_height='95'}
 
 ~~~
-user@front2$ ssh user@localhost -p 20022
+user@relay$ ssh -p 20022 user@localhost
 ~~~
 
 
