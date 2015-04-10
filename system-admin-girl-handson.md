@@ -440,7 +440,9 @@ $ firefox http://localhost:10080/
 リモートフォワード
 （逆方向のポートフォワード）
 
-（概念図）
+# リモート→ローカルの転送
+
+![](images/03-remote-forward.png){:relative_height='95'}
 
 
 # Case2-1: 社内から社外のPCにログインしたい
