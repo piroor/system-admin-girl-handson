@@ -410,7 +410,7 @@ $ scp -P 10022 user@localhost:/tmp/uploadedfile2 /tmp/downloadedfile
 
 
 
-# Case1-2: 社外にあるPCから社内専用のサーバーにHTTP接続したい
+# Case1-2: 社外から社内Webサイトを見たい
 
 ![](images/case1-2.png){:relative_height='95'}
 
@@ -431,26 +431,6 @@ $ ssh user@front -L 10080:192.168.0.110:80
 $ firefox http://localhost:10080/
 ~~~
 
-
-
-
-# Case1-3: 社外にある他のPCからも社内専用のサーバーにHTTP接続したい
-
-（ネットワーク構成図）
-
-手元のPC：
-
-~~~
-$ ssh user@front -L 10080:192.168.0.110:80 -g
-~~~
-
-同一セグメント内にある他のPC：
-
-~~~
-$ curl -L "http://192.168.1.10:10080/wp-admin/install.php"
-~~~
-
-（概念図）
 
 
 
