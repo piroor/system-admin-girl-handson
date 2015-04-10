@@ -428,10 +428,9 @@ $ ssh user@front -L 10080:192.168.0.110:80
 
 
 ~~~
-$ curl -L "http://localhost:10080/"
+$ firefox http://localhost:10080/
 ~~~
 
-（概念図）
 
 
 
