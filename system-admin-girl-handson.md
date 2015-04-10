@@ -530,7 +530,7 @@ user@relay$ passwd
 [メモ用シート](printable-sheets/memo.html)に各種情報を書き込んでおく。
 
 
-# ステップ1: リモートフォワードの確立
+# step1: リモートフォワードの確立
 
 ![](images/case2-2-1.png){:relative_height='95'}
 
@@ -538,7 +538,7 @@ user@relay$ passwd
 user@front$ ssh user@relay -R 20022:192.168.0.110:22
 ~~~
 
-# ステップ1: リモートフォワードの確立
+# step1: リモートフォワードの確立
 
 ![](images/case2-2-1-forwarded.png){:relative_height='95'}
 
@@ -546,7 +546,7 @@ user@front$ ssh user@relay -R 20022:192.168.0.110:22
 user@front$ ssh user@relay -R 20022:192.168.0.110:22
 ~~~
 
-# ステップ2: relayへログイン
+# step2: relayへログイン
 
 ![](images/case2-2-2.png){:relative_height='95'}
 
@@ -554,7 +554,7 @@ user@front$ ssh user@relay -R 20022:192.168.0.110:22
 $ ssh user@relay
 ~~~
 
-# ステップ3: 社内サーバーへログイン
+# step3: 社内サーバーへログイン
 
 ![](images/case2-2-3.png){:relative_height='95'}
 
@@ -573,32 +573,32 @@ user@relay$ ssh -p 20022 user@localhost
 リモートフォワードの
 合わせ技
 
-（概念図）
-
 
 # 外部から侵入不可能なネットワーク内の社内サーバーに、社外からHTTP接続したい
 
- * front-relay間の接続が切れたらお手上げ。（自動再接続させたいならautosshを使う）
+![](images/case3.png){:relative_height='95'}
 
-（ネットワーク構成図）
+# step1: リモートフォワードの確立
 
-まず、frontからrelayへSSH接続して、リモートフォワードを設定する。
+![](images/case3-1.png){:relative_height='95'}
 
 ~~~
 user@front$ ssh user@relay -R 20080:192.168.0.110:80
 ~~~
 
-次に、手元のPCからrelayへSSH接続して、ローカルフォワードを設定する。
+# step2: ローカルフォワードの確立
+
+![](images/case3-2.png){:relative_height='95'}
 
 ~~~
 $ ssh user@relay -L 10080:localhost:20080
 ~~~
 
-手元のPCの別のコンソール：
+# step3: HTTPリクエストを送る
+
+![](images/case3-3.png){:relative_height='95'}
 
 ~~~
-$ curl -L http://localhost:10080/
+$ firefox http://localhost:10080/
 ~~~
-
-（概念図）
 
