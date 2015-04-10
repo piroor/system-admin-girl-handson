@@ -83,8 +83,7 @@ allotted_time
 
 # 踏み台にする中継サーバー
 
-「front」と
-呼ぶことにします
+![「front」と呼ぶことにします](images/01-setup-network-front.png){:relative_width='80'}
 
 # frontの作成 (1/5)
 
@@ -226,7 +225,7 @@ userのパスワードを書き込んでおく。
 
 # 社内専用Webサーバー
 
-「back」と呼ぶことにします
+![「back」と呼ぶことにします](images/01-setup-network-back.png){:relative_width='80'}
 
 # backの作成 (1/2)
 
