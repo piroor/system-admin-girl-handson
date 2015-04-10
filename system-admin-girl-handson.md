@@ -488,31 +488,38 @@ user@front$ ssh -p 20022 guest@localhost
 
 
 
-# Case2-2: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからSSH接続したい
+# Case2-2: 外部から侵入不可能なネットワーク内のサーバーに、社外からログインしたい
 
-frontに対して外部からのSSH接続を禁止して、「外には出て行けるが、中には入れない」ネットワークを用意する。
+![](images/case2-2.png){:relative_height='95'}
+
+# 準備1: frontに社外からログインできなくする
+
+![](images/case2-2.png){:relative_height='95'}
 
 ~~~
 root@front# ./disallow-ssh.sh
 ~~~
 
-確かめてみる。
+# 確かめてみよう
+
+![](images/case2-2-closed.png){:relative_height='95'}
 
 ~~~
 $ ssh user@back
 ~~~
 
-これはログインできない。
-
 ~~~
 user@back$ ssh user@192.168.0.100
 ~~~
 
-これはログインできる。
+# 準備2: 新たな中継サーバーを用意する
 
+![](images/case2-2-relay.png){:relative_height='95'}
 
-さらに、新たな踏み台サーバーとして、relayを用意する。
-[メモ用シート](printable-sheets/memo.html)に各種情報を書き込んでおく。
+# 準備2: 新たな中継サーバーを用意する
+
+ * VPSを作成する
+ * コンソールからログインして初期設定を行う
 
 ~~~
 root@relay# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-relay.sh | bash
@@ -520,67 +527,57 @@ root@relay# su user
 user@relay$ passwd
 ~~~
 
-（ネットワーク構成図）
+[メモ用シート](printable-sheets/memo.html)に各種情報を書き込んでおく。
 
-frontからrelayへSSH接続して、リモートフォワードを設定する。
+
+# ステップ1: リモートフォワードの確立
+
+![](images/case2-2-1.png){:relative_height='95'}
 
 ~~~
 user@front$ ssh user@relay -R 20022:192.168.0.110:22
 ~~~
 
-次に、手元のPCからrelayへSSH接続する。
-そうしたら、localhostの20022番ポートにSSH接続する。
+# ステップ1: リモートフォワードの確立
+
+![](images/case2-2-1-forwarded.png){:relative_height='95'}
+
+~~~
+user@front$ ssh user@relay -R 20022:192.168.0.110:22
+~~~
+
+# ステップ2: relayへログイン
+
+![](images/case2-2-2.png){:relative_height='95'}
 
 ~~~
 $ ssh user@relay
+~~~
+
+# ステップ3: 社内サーバーへログイン
+
+![](images/case2-2-3.png){:relative_height='95'}
+
+~~~
 user@front2$ ssh user@localhost -p 20022
 ~~~
 
-（概念図）
 
 
-# Case2-3: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからHTTP接続したい
 
-（ネットワーク構成図）
 
-frontからrelayへSSH接続して、リモートフォワードを設定する。
 
-~~~
-user@front$ ssh user@relay -R 0.0.0.0:20080:192.168.0.110:80
-~~~
+# Case3: 
 
-手元のPC：
-
-~~~
-$ curl -L http://relay:20080/
-~~~
+ローカルフォワードと
+リモートフォワードの
+合わせ技
 
 （概念図）
 
-注意点：
 
- * サーバーをインターネットに公開しているのと全く同じなので、危険。
- * relayのsshdが、GatewayPorts yesまたはclientspecifiedに設定されている必要がある。
- * relayのiptablesで、指定のポートが解放されている必要がある。
- * front-relay間の接続が切れたらお手上げ。（自動再接続させたいならautosshを使う）
+# 外部から侵入不可能なネットワーク内の社内サーバーに、社外からHTTP接続したい
 
-
-
-
-# Case3: ローカルフォワードとリモートフォワードの合わせ技
-
-（概念図）
-
-# Case3-1: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからHTTP接続したい（より安全なやり方）
-
-踏み台サーバーのplainに施していた、ポート開放などの設定を元に戻しておく。
-
-~~~
-root@relay# ~/reset.sh
-~~~
-
- * relayのsshdは、GatewayPorts noでもよい。
- * relayのiptablesは、指定のポートが解放されていなくてもよい。
  * front-relay間の接続が切れたらお手上げ。（自動再接続させたいならautosshを使う）
 
 （ネットワーク構成図）
