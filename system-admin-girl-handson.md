@@ -312,22 +312,17 @@ backにログインし、root権限でrootのホームにある設定変更用�
 
 # Case0-1: 社外にあるPCから社内専用のサーバーにSSH接続したい
 
-（ネットワーク構成図）
+![](images/case0-1-1.png){:relative_height='95'}
+
+# step1: frontにログイン
+
+![](images/case0-1-2.png){:relative_height='95'}
+
+# step2: backにログイン
+
+![](images/case0-1-3.png){:relative_height='95'}
 
 
-手元のPC：
-
-~~~
-$ ssh user@203.0.113.1
-~~~
-
-ログイン先の踏み台サーバー（front）：
-
-~~~
-user@front$ ssh user@192.168.0.110
-~~~
-
-（概念図）
 
 
 # Case0-2: 社外にあるPCから社内専用のサーバーにSCPでファイルをアップロードしたい（または、ファイルをダウンロードしたい）
