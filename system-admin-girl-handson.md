@@ -318,27 +318,53 @@ backにログインし、root権限でrootのホームにある設定変更用�
 
 ![](images/case0-1-2.png){:relative_height='95'}
 
+~~~
+$ ssh user@front
+~~~
+
 # step2: backにログイン
 
 ![](images/case0-1-3.png){:relative_height='95'}
 
+~~~
+user@front$ ssh user@192.168.0.110
+~~~
 
 
 
-# Case0-2: 社外にあるPCから社内専用のサーバーにSCPでファイルをアップロードしたい（または、ファイルをダウンロードしたい）
+# Case0-2: 社外にあるPCから社内専用のサーバーにファイルをアップロードしたい
 
-（ネットワーク構成図）
+![](images/case0-2-1.png){:relative_height='95'}
 
-手元のPC：
+# step1: ファイルをfrontにコピー
+
+![](images/case0-2-2.png){:relative_height='95'}
 
 ~~~
 $ echo "Hello!" >  /tmp/localfile
 $ scp /tmp/localfile user@203.0.113.1:/tmp/uploadedfile
-$ ssh user@203.0.113.1
+~~~
+
+# step2: frontにログイン
+
+![](images/case0-2-3.png){:relative_height='95'}
+
+~~~
+$ ssh user@front
+~~~
+
+# step2: ファイルをfrontからbackにコピー
+
+![](images/case0-2-4.png){:relative_height='95'}
+
+~~~
 user@front$ scp /tmp/uploadedfile user@192.168.0.110:/tmp/uploadedfile
 ~~~
 
-（概念図）
+
+
+
+
 
 一旦リモートのサーバに置いてから、もう1度コピーすることになる。
 
