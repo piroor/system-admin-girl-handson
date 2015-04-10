@@ -197,7 +197,8 @@ root@front# curl https://raw.githubusercontent.com/piroor/
 ~~~
 
 {::comment}
-コピペ用： curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-front.sh | bash
+コピペ用：
+curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-front.sh | bash
 {:/comment}
 
 # frontの初期化 (4/6)
@@ -285,8 +286,8 @@ root@back# curl https://raw.githubusercontent.com/piroor/
 ~~~
 
 {::comment}
-コピペ用： curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-back.sh | bash
-
+コピペ用：
+curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-back.sh | bash
 {:/comment}
 
 # backの初期化 (2/2)
@@ -335,7 +336,7 @@ backのIPアドレスを指定して
 
 
 
-# backをインターネットから切り離す
+# backを隔離する
 
 backにログインし、root権限で
 rootのホームにある
@@ -362,26 +363,31 @@ SSHポートフォワーディングを
 ![](images/02-port-forwarding.png){:relative_width='80'}
 
 
+
 # Case0:
 
 ポートフォワードが
 必要ないケース
 
-# Case0-1: 社外から社内サーバーにログインしたい
+# Case0-1: 
 
-![](images/case0-1.png){:relative_width='80'}
+![社外からログイン](images/case0-1.png){:relative_width='80'}
 
-# step1: 中継サーバーにログイン
+# step1:
 
-![](images/case0-1-1.png){:relative_width='80'}
+![中継サーバーにログイン](images/case0-1-1.png){:relative_width='80'}
+
+# step1:
 
 ~~~
 $ ssh user@front
 ~~~
 
-# step2: 社内サーバーにログイン
+# step2: 
 
-![](images/case0-1-2.png){:relative_width='80'}
+![社内サーバーにログイン](images/case0-1-2.png){:relative_width='80'}
+
+# step2:
 
 ~~~
 user@front$ ssh user@192.168.0.110
@@ -389,43 +395,51 @@ user@front$ ssh user@192.168.0.110
 
 
 
-# Case0-2: 社外PCから社内サーバーにファイルをアップロードしたい
+# Case0-2: 
 
-![](images/case0-2.png){:relative_width='80'}
+![社外からファイルをアップロード](images/case0-2.png){:relative_width='80'}
 
-# step1: ファイルを中継サーバーにコピー
+# step1:
 
-![](images/case0-2-1.png){:relative_width='80'}
+![中継サーバーにコピー](images/case0-2-1.png){:relative_width='80'}
+
+# step1:
 
 ~~~
 $ echo "Hello!" >  /tmp/localfile
 $ scp /tmp/localfile user@front:/tmp/uploadedfile
 ~~~
 
-# step2: 中継サーバーにログイン
+# step2: 
 
-![](images/case0-2-2.png){:relative_width='80'}
+![中継サーバーにログイン](images/case0-2-2.png){:relative_width='80'}
+
+# step2:
 
 ~~~
 $ ssh user@front
 ~~~
 
-# step3: 中継サーバーから社内サーバーにコピー
+# step3:
 
-![](images/case0-2-3.png){:relative_width='80'}
+![中継サーバーから
+社内サーバーにコピー](images/case0-2-3.png){:relative_width='80'}
+
+# step3:
 
 ~~~
-user@front$ scp /tmp/uploadedfile user@192.168.0.110:/tmp/uploadedfile
+user@front$ scp /tmp/uploadedfile
+              user@192.168.0.110:/tmp/uploadedfile
 ~~~
 
-
-
-
-
+{::comment}
+コピペ用
+scp /tmp/uploadedfile user@192.168.0.110:/tmp/uploadedfile
+{:/comment}
 
 # Case1
 
-ローカルフォワード
+*ローカルフォワード*
 （順方向のポートフォワード）
 
 # ローカル→リモートの転送
@@ -433,58 +447,76 @@ user@front$ scp /tmp/uploadedfile user@192.168.0.110:/tmp/uploadedfile
 ![](images/02-port-forwarding.png){:relative_width='80'}
 
 
-# Case1-1: 社外から社内サーバーに直接ファイルをアップロードしたい
+# Case1-1: 
 
-![](images/case0-2.png){:relative_width='80'}
+![社外からファイルを直接アップロード](images/case0-2.png){:relative_width='80'}
 
-# step1: ローカルフォワードを確立
+# step1: 
 
-![](images/case1-1-1.png){:relative_width='80'}
+![ローカルフォワードを有効化](images/case1-1-1.png){:relative_width='80'}
+
+# step1: 
 
 ~~~
 $ ssh user@front -L 10022:192.168.0.110:22
 ~~~
 
-# step1: ローカルフォワードを確立
+*L*ocal→Remote の
+*L*ocal Forward だから *L*
+
+# step1:
 
 ![](images/case1-1-1-forwarded.png){:relative_width='80'}
 
-~~~
-$ ssh user@front -L 10022:192.168.0.110:22
-~~~
+# step2: 
 
-# step2: ファイルをコピー
+![ファイルをコピー](images/case1-1-2.png){:relative_width='80'}
 
-![](images/case1-1-2.png){:relative_width='80'}
+# step2: 
 
 ~~~
 $ scp -P 10022 /tmp/localfile user@localhost:/tmp/uploadedfile2
 $ scp -P 10022 user@localhost:/tmp/uploadedfile2 /tmp/downloadedfile
 ~~~
 
+双方向にコピーできる。
 
 
 
 
-# Case1-2: 社外から社内Webサイトを見たい
+# Case1-2: 
 
-![](images/case1-2.png){:relative_width='80'}
+![社外から社内Webサイトを見る](images/case1-2.png){:relative_width='80'}
 
-# step1: ローカルフォワードを確立
+# step1: 
 
-![](images/case1-2-1.png){:relative_width='80'}
+![ローカルフォワードを有効化](images/case1-2-1.png){:relative_width='80'}
+
+# step1: 
 
 ~~~
 $ ssh user@front -L 10080:192.168.0.110:80
 ~~~
 
-# step2: HTTPリクエストを送る
+*L*ocal→Remote の
+*L*ocal Forward だから *L*
 
-![](images/case1-2-2.png){:relative_width='80'}
+# step2: 
 
+![HTTPリクエストを送る](images/case1-2-2.png){:relative_width='80'}
+
+# step2: 
 
 ~~~
 $ firefox http://localhost:10080/
+~~~
+
+~~~
+$ w3m http://localhost:10080/
+~~~
+
+~~~
+$ curl http://localhost:10080/
 ~~~
 
 
@@ -493,7 +525,7 @@ $ firefox http://localhost:10080/
 
 # Case2:
 
-リモートフォワード
+*リモートフォワード*
 （逆方向のポートフォワード）
 
 # リモート→ローカルの転送
@@ -501,40 +533,48 @@ $ firefox http://localhost:10080/
 ![](images/03-remote-forward.png){:relative_width='80'}
 
 
-# Case2-1: 社内から社外のPCにログインしたい
+# Case2-1: 
 
-![](images/case2-1.png){:relative_width='80'}
+![社内から社外のPCにログイン](images/case2-1.png){:relative_width='80'}
 
-手元のPCにはguestというユーザーを作成済みで、
-パスワード認証できるものとする。
+# Case2-1: 
 
-# step1: リモートフォワードを確立
+ * 手元のPCにはguestという
+   ユーザーを作成済みで、
+   パスワード認証できるものとする。
 
-![](images/case2-1-1.png){:relative_width='80'}
+# step1: 
+
+![リモートフォワードを有効化](images/case2-1-1.png){:relative_width='80'}
+
+# step1: 
 
 ~~~
 $ ssh user@front -R 20022:localhost:22
 ~~~
 
-# step1: リモートフォワードを確立
+*R*emote→Local の
+*R*emote Forward だから *R*
+
+# step1: 
 
 ![](images/case2-1-1-forwarded.png){:relative_width='80'}
 
-~~~
-$ ssh user@front -R 20022:localhost:22
-~~~
+# step2: 
 
-# step2: 中継サーバーにログイン
+![中継サーバーにログイン](images/case2-1-2.png){:relative_width='80'}
 
-![](images/case2-1-2.png){:relative_width='80'}
+# step2: 
 
 ~~~
 user@back$ ssh user@192.168.0.100
 ~~~
 
-# step3: 社外PCにログイン
+# step3: 
 
-![](images/case2-1-3.png){:relative_width='80'}
+![社外PCにログイン](images/case2-1-3.png){:relative_width='80'}
+
+# step3: 
 
 ~~~
 user@front$ ssh -p 20022 guest@localhost
@@ -546,75 +586,98 @@ user@front$ ssh -p 20022 guest@localhost
 
 
 
-# Case2-2: 外部から侵入不可能なネットワーク内のサーバーに、社外からログインしたい
+# Case2-2: 
 
-![](images/case2-2.png){:relative_width='80'}
+![侵入不可能なネットワーク内の
+サーバーに社外からログイン](images/case2-2.png){:relative_width='80'}
 
-# 準備1: frontに社外からログインできなくする
+# 準備1: 
 
-![](images/case2-2.png){:relative_width='80'}
+![frontに社外からログインできなくする](images/case2-2.png){:relative_width='80'}
+
+# 準備1: 
 
 ~~~
-root@front# ./disallow-ssh.sh
+root@front# ~/disallow-ssh.sh
 ~~~
 
 # 確かめてみよう
 
 ![](images/case2-2-closed.png){:relative_width='80'}
 
+# 確かめてみよう
+
+手元のPCからfrontへ
+
 ~~~
 $ ssh user@back
 ~~~
+
+backからfrontへ
 
 ~~~
 user@back$ ssh user@192.168.0.100
 ~~~
 
-# 準備2: 新たな中継サーバーを用意する
+# 準備2: 
 
-![](images/case2-2-relay.png){:relative_width='80'}
+![新たな中継サーバーを作成](images/case2-2-relay.png){:relative_width='80'}
 
-# 準備2: 新たな中継サーバーを用意する
+# 準備2: 
 
- * VPSを作成する
- * コンソールからログインして初期設定を行う
+ * 新たな中継サーバー用の
+   VPSを作成する
+ * コンソールからログインして
+   初期設定を行う
 
 ~~~
-root@relay# curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-relay.sh | bash
+root@relay# curl https://raw.githubusercontent.com/piroor/
+              system-admin-girl-handson/master/scripts/setup-relay.sh | bash
 root@relay# su user
 user@relay$ passwd
 ~~~
 
-[メモ用シート](printable-sheets/memo.html)に各種情報を書き込んでおく。
+{::comment}
+コピペ用
+curl https://raw.githubusercontent.com/piroor/system-admin-girl-handson/master/scripts/setup-relay.sh | bash
+{:/comment}
+
+[メモ用シート](printable-sheets/memo.html)に
+各種情報を書き込んでおく。
 
 
-# step1: リモートフォワードの確立
+# step1: 
 
-![](images/case2-2-1.png){:relative_width='80'}
+![リモートフォワードの有効化](images/case2-2-1.png){:relative_width='80'}
+
+# step1: 
 
 ~~~
 user@front$ ssh user@relay -R 20022:192.168.0.110:22
 ~~~
 
-# step1: リモートフォワードの確立
+*R*emote→Local の
+*R*emote Forward だから *R*
 
-![](images/case2-2-1-forwarded.png){:relative_width='80'}
+# step1: 
 
-~~~
-user@front$ ssh user@relay -R 20022:192.168.0.110:22
-~~~
+![リモートフォワードの有効化](images/case2-2-1-forwarded.png){:relative_width='80'}
 
-# step2: relayへログイン
+# step2: 
 
-![](images/case2-2-2.png){:relative_width='80'}
+![relayへログイン](images/case2-2-2.png){:relative_width='80'}
+
+# step2: 
 
 ~~~
 $ ssh user@relay
 ~~~
 
-# step3: 社内サーバーへログイン
+# step3: 
 
-![](images/case2-2-3.png){:relative_width='80'}
+![社内サーバーへログイン](images/case2-2-3.png){:relative_width='80'}
+
+# step3: 
 
 ~~~
 user@relay$ ssh -p 20022 user@localhost
@@ -629,34 +692,71 @@ user@relay$ ssh -p 20022 user@localhost
 
 ローカルフォワードと
 リモートフォワードの
-合わせ技
+*合わせ技*
 
 
-# 外部から侵入不可能なネットワーク内の社内サーバーに、社外からHTTP接続したい
+# Case3:
 
-![](images/case3.png){:relative_width='80'}
+![侵入不可能なネットワーク内の
+社内Webサイトを、社外から見る](images/case3.png){:relative_width='80'}
 
-# step1: リモートフォワードの確立
+# step1: 
 
-![](images/case3-1.png){:relative_width='80'}
+![リモートフォワードの有効化](images/case3-1.png){:relative_width='80'}
+
+# step1: 
 
 ~~~
 user@front$ ssh user@relay -R 20080:192.168.0.110:80
 ~~~
 
-# step2: ローカルフォワードの確立
+*R*emote→Local の
+*R*emote Forward だから *R*
 
-![](images/case3-2.png){:relative_width='80'}
+# step2: 
+
+![ローカルフォワードの有効化](images/case3-2.png){:relative_width='80'}
+
+# step2: 
 
 ~~~
 $ ssh user@relay -L 10080:localhost:20080
 ~~~
 
-# step3: HTTPリクエストを送る
+*L*ocal→Remote の
+*L*ocal Forward だから *L*
 
-![](images/case3-3.png){:relative_width='80'}
+# step3: 
+
+![HTTPリクエストを送る](images/case3-3.png){:relative_width='80'}
+
+# step3: 
 
 ~~~
 $ firefox http://localhost:10080/
 ~~~
+
+~~~
+$ w3m http://localhost:10080/
+~~~
+
+~~~
+$ curl http://localhost:10080/
+~~~
+
+# まとめ：ローカルフォワード
+
+![手元から接続先ネットワークに
+パケットを送る](images/matome-local.png){:relative_width='80'}
+
+# まとめ：リモートフォワード
+
+![接続先ネットワークから
+手元にパケットを送る](images/matome-remote.png){:relative_width='80'}
+
+# まとめ：連携
+
+![手元から最終目的地に
+パケットを送る](images/matome-both.png){:relative_width='80'}
+
 
