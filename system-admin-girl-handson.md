@@ -111,7 +111,6 @@ allotted_time
 
 ![](images/screenshots/add-vps-step15-ipaddress.png){:relative_height='95'}
 
-以下の説明では203.0.113.1と仮定する。
 [メモ用シート](printable-sheets/memo.html)にIPアドレスを書き込んでおく。
 
 
@@ -225,7 +224,6 @@ nginx, WordPress入りのテンプレートイメージを選択する。
 
 ![](images/screenshots/add-vps-step15-ipaddress.png){:relative_height='95'}
 
-以下の説明では203.0.113.2と仮定する。
 [メモ用シート](printable-sheets/memo.html)にIPアドレスを書き込んでおく。
 
 
@@ -268,7 +266,7 @@ user@back$ passwd
 backのIPアドレスを指定してブラウザで開いてみる。
 初期設定の画面が出るので、適当に設定する。
 
-例： http://203.0.113.2/
+例： http://back/
 
 # WordPressの動作確認 (2/3)
 
@@ -281,7 +279,7 @@ backのIPアドレスを指定してブラウザで開いてみる。
 もう1度、backのIPアドレスを指定してブラウザで開いてみる。
 セットアップが完了したWordPressの画面が出る。
 
-例： http://203.0.113.2/
+例： http://back/
 
 
 
@@ -308,15 +306,18 @@ backにログインし、root権限でrootのホームにある設定変更用�
 ![](images/02-port-forwarding.png){:relative_height='95'}
 
 
-# Case0: ポートフォワードが必要ないケース
+# Case0:
 
-# Case0-1: 社外にあるPCから社内専用のサーバーにSSH接続したい
+ポートフォワードが
+必要ないケース
 
-![](images/case0-1-1.png){:relative_height='95'}
+# Case0-1: 社外から社内サーバーにログインしたい
+
+![](images/case0-1.png){:relative_height='95'}
 
 # step1: frontにログイン
 
-![](images/case0-1-2.png){:relative_height='95'}
+![](images/case0-1-1.png){:relative_height='95'}
 
 ~~~
 $ ssh user@front
@@ -324,7 +325,7 @@ $ ssh user@front
 
 # step2: backにログイン
 
-![](images/case0-1-3.png){:relative_height='95'}
+![](images/case0-1-2.png){:relative_height='95'}
 
 ~~~
 user@front$ ssh user@192.168.0.110
@@ -332,30 +333,30 @@ user@front$ ssh user@192.168.0.110
 
 
 
-# Case0-2: 社外にあるPCから社内専用のサーバーにファイルをアップロードしたい
+# Case0-2: 社外PCから社内サーバーにファイルをアップロードしたい
 
-![](images/case0-2-1.png){:relative_height='95'}
+![](images/case0-2.png){:relative_height='95'}
 
 # step1: ファイルをfrontにコピー
 
-![](images/case0-2-2.png){:relative_height='95'}
+![](images/case0-2-1.png){:relative_height='95'}
 
 ~~~
 $ echo "Hello!" >  /tmp/localfile
-$ scp /tmp/localfile user@203.0.113.1:/tmp/uploadedfile
+$ scp /tmp/localfile user@front:/tmp/uploadedfile
 ~~~
 
 # step2: frontにログイン
 
-![](images/case0-2-3.png){:relative_height='95'}
+![](images/case0-2-2.png){:relative_height='95'}
 
 ~~~
 $ ssh user@front
 ~~~
 
-# step2: ファイルをfrontからbackにコピー
+# step3: ファイルをfrontからbackにコピー
 
-![](images/case0-2-4.png){:relative_height='95'}
+![](images/case0-2-3.png){:relative_height='95'}
 
 ~~~
 user@front$ scp /tmp/uploadedfile user@192.168.0.110:/tmp/uploadedfile
@@ -366,35 +367,38 @@ user@front$ scp /tmp/uploadedfile user@192.168.0.110:/tmp/uploadedfile
 
 
 
-一旦リモートのサーバに置いてから、もう1度コピーすることになる。
+# Case1
+
+ローカルフォワード
+（順方向のポートフォワード）
+
+# ローカル→リモートの転送
+
+![](images/02-port-forwarding.png){:relative_height='95'}
 
 
+# Case1-1: 社外から社内サーバーに直接ファイルをアップロードしたい
 
-# Case1: ローカルフォワード（順方向のポートフォワード）
+![](images/case0-2.png){:relative_height='95'}
 
-（概念図）
+# step1: ローカルフォワードを確立
 
-
-# Case1-1: 社外にあるPCから社内専用のサーバーにSCPで直接ファイルをアップロードしたい（または、ファイルをダウンロードしたい）
-
-（ネットワーク構成図）
-
-手元のPC：
+![](images/case1-1-1.png){:relative_height='95'}
 
 ~~~
-$ ssh user@203.0.113.1 -L 10022:192.168.0.110:22
+$ ssh user@front -L 10022:192.168.0.110:22
 ~~~
 
-手元のPCの別コンソール：
+# step2: ファイルをコピー
+
+![](images/case1-1-2.png){:relative_height='95'}
 
 ~~~
 $ scp -P 10022 /tmp/localfile user@localhost:/tmp/uploadedfile2
 $ scp -P 10022 user@localhost:/tmp/uploadedfile2 /tmp/downloadedfile
 ~~~
 
-（概念図）
 
-大量のファイルを転送するならこの方がラク。
 
 
 
@@ -407,7 +411,7 @@ $ scp -P 10022 user@localhost:/tmp/uploadedfile2 /tmp/downloadedfile
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -L 10080:192.168.0.110:80
+$ ssh user@front -L 10080:192.168.0.110:80
 ~~~
 
 手元のPCの別のコンソール：
@@ -427,7 +431,7 @@ $ curl -L "http://localhost:10080/"
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -L 10080:192.168.0.110:80 -g
+$ ssh user@front -L 10080:192.168.0.110:80 -g
 ~~~
 
 同一セグメント内にある他のPC：
@@ -456,7 +460,7 @@ $ curl -L "http://192.168.1.10:10080/wp-admin/install.php"
 手元のPC：
 
 ~~~
-$ ssh user@203.0.113.1 -R 20022:localhost:22
+$ ssh user@front -R 20022:localhost:22
 ~~~
 
 社内にあるコンピューター（back）
@@ -494,7 +498,7 @@ root@front# ./disallow-ssh.sh
 確かめてみる。
 
 ~~~
-$ ssh user@203.0.113.2
+$ ssh user@back
 ~~~
 
 これはログインできない。
@@ -506,7 +510,7 @@ user@back$ ssh user@192.168.0.100
 これはログインできる。
 
 
-さらに、新たな踏み台サーバーとして、relay（203.0.113.3と仮定）を用意する。
+さらに、新たな踏み台サーバーとして、relayを用意する。
 [メモ用シート](printable-sheets/memo.html)に各種情報を書き込んでおく。
 
 ~~~
@@ -520,14 +524,14 @@ user@relay$ passwd
 frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.3 -R 20022:192.168.0.110:22
+user@front$ ssh user@relay -R 20022:192.168.0.110:22
 ~~~
 
 次に、手元のPCからrelayへSSH接続する。
 そうしたら、localhostの20022番ポートにSSH接続する。
 
 ~~~
-$ ssh user@203.0.113.3
+$ ssh user@relay
 user@front2$ ssh user@localhost -p 20022
 ~~~
 
@@ -541,13 +545,13 @@ user@front2$ ssh user@localhost -p 20022
 frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.3 -R 0.0.0.0:20080:192.168.0.110:80
+user@front$ ssh user@relay -R 0.0.0.0:20080:192.168.0.110:80
 ~~~
 
 手元のPC：
 
 ~~~
-$ curl -L http://203.0.113.3:20080/
+$ curl -L http://relay:20080/
 ~~~
 
 （概念図）
@@ -583,13 +587,13 @@ root@relay# ~/reset.sh
 まず、frontからrelayへSSH接続して、リモートフォワードを設定する。
 
 ~~~
-user@front$ ssh user@203.0.113.3 -R 20080:192.168.0.110:80
+user@front$ ssh user@relay -R 20080:192.168.0.110:80
 ~~~
 
 次に、手元のPCからrelayへSSH接続して、ローカルフォワードを設定する。
 
 ~~~
-$ ssh user@203.0.113.3 -L 10080:localhost:20080
+$ ssh user@relay -L 10080:localhost:20080
 ~~~
 
 手元のPCの別のコンソール：
