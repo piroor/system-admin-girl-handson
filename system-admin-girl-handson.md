@@ -315,7 +315,7 @@ backにログインし、root権限でrootのホームにある設定変更用�
 
 ![](images/case0-1.png){:relative_height='95'}
 
-# step1: frontにログイン
+# step1: 中継サーバーにログイン
 
 ![](images/case0-1-1.png){:relative_height='95'}
 
@@ -323,7 +323,7 @@ backにログインし、root権限でrootのホームにある設定変更用�
 $ ssh user@front
 ~~~
 
-# step2: backにログイン
+# step2: 社内サーバーにログイン
 
 ![](images/case0-1-2.png){:relative_height='95'}
 
@@ -337,7 +337,7 @@ user@front$ ssh user@192.168.0.110
 
 ![](images/case0-2.png){:relative_height='95'}
 
-# step1: ファイルをfrontにコピー
+# step1: ファイルを中継サーバーにコピー
 
 ![](images/case0-2-1.png){:relative_height='95'}
 
@@ -346,7 +346,7 @@ $ echo "Hello!" >  /tmp/localfile
 $ scp /tmp/localfile user@front:/tmp/uploadedfile
 ~~~
 
-# step2: frontにログイン
+# step2: 中継サーバーにログイン
 
 ![](images/case0-2-2.png){:relative_height='95'}
 
@@ -354,7 +354,7 @@ $ scp /tmp/localfile user@front:/tmp/uploadedfile
 $ ssh user@front
 ~~~
 
-# step3: ファイルをfrontからbackにコピー
+# step3: 中継サーバーから社内サーバーにコピー
 
 ![](images/case0-2-3.png){:relative_height='95'}
 
@@ -450,34 +450,42 @@ $ firefox http://localhost:10080/
 手元のPCにはguestというユーザーを作成済みで、
 パスワード認証できるものとする。
 
-手元のPC：
+# step1: リモートフォワードを確立
+
+![](images/case2-1-1.png){:relative_height='95'}
 
 ~~~
 $ ssh user@front -R 20022:localhost:22
 ~~~
 
-社内にあるコンピューター（back）
+# step1: リモートフォワードを確立
+
+![](images/case2-1-1-forwarded.png){:relative_height='95'}
+
+~~~
+$ ssh user@front -R 20022:localhost:22
+~~~
+
+# step2: 中継サーバーにログイン
+
+![](images/case2-1-2.png){:relative_height='95'}
 
 ~~~
 user@back$ ssh user@192.168.0.100
+~~~
+
+# step3: 社外PCにログイン
+
+![](images/case2-1-3.png){:relative_height='95'}
+
+~~~
 user@front$ ssh -p 20022 guest@localhost
 ~~~
 
-（概念図）
 
-別解
 
-~~~
-user@back$ ssh user@192.168.0.100 -R 0.0.0.0:20022:localhost:22
-~~~
 
-社内にあるコンピューター（back）
 
-~~~
-user@back$ ssh -p 20022 guest@192.168.0.100
-~~~
-
-（概念図）
 
 
 # Case2-2: 外部から侵入不可能なネットワーク内にあるサーバーに、踏み台サーバーを経由して、手元のPCからSSH接続したい
