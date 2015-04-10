@@ -389,6 +389,14 @@ user@front$ scp /tmp/uploadedfile user@192.168.0.110:/tmp/uploadedfile
 $ ssh user@front -L 10022:192.168.0.110:22
 ~~~
 
+# step1: ローカルフォワードを確立
+
+![](images/case1-1-1-forwarded.png){:relative_height='95'}
+
+~~~
+$ ssh user@front -L 10022:192.168.0.110:22
+~~~
+
 # step2: ファイルをコピー
 
 ![](images/case1-1-2.png){:relative_height='95'}
