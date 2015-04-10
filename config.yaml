@@ -1,0 +1,21 @@
+---
+id: system-admin-girl-handson-port-forwarding
+base_name: system-admin-girl-handson-port-forwarding
+tags:
+- system-admin-girl
+- ssh
+presentation_date: 2015/04/11
+version: 2015.04.11.0
+licenses: []
+slideshare_id: system-admin-girl-handson-port-forwarding
+speaker_deck_id: 
+ustream_id: 
+vimeo_id: 
+youtube_id: 
+author:
+  markup_language: :markdown
+  name: 結城洋志
+  email: yuki@clear-code.com
+  rubygems_user: Piro
+  slideshare_user: pirooutsiderreflex
+  speaker_deck_user: 
