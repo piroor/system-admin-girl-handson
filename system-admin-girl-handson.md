@@ -412,17 +412,20 @@ $ scp -P 10022 user@localhost:/tmp/uploadedfile2 /tmp/downloadedfile
 
 # Case1-2: 社外にあるPCから社内専用のサーバーにHTTP接続したい
 
-（ネットワーク構成図）
+![](images/case1-2.png){:relative_height='95'}
 
-社外から、社内にあるRedmineなどにアクセスする、というような場面。
+# step1: ローカルフォワードを確立
 
-手元のPC：
+![](images/case1-2-1.png){:relative_height='95'}
 
 ~~~
 $ ssh user@front -L 10080:192.168.0.110:80
 ~~~
 
-手元のPCの別のコンソール：
+# step2: HTTPリクエストを送る
+
+![](images/case1-2-2.png){:relative_height='95'}
+
 
 ~~~
 $ curl -L "http://localhost:10080/"
