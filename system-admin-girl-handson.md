@@ -49,8 +49,7 @@ allotted_time
 
 # 目指すゴール
 
-（ネットワーク構成図）
-
+![](images/01-setup-network.png){:relative_height='95'}
 
 
 # ローカルネットワークの作成 (1/5)
@@ -297,7 +296,7 @@ backにログインし、root権限でrootのホームにある設定変更用�
 
 # 準備完了
 
-（ネットワーク構成図）
+![](images/01-setup-network.png){:relative_height='95'}
 
 
 
