@@ -305,7 +305,7 @@ backにログインし、root権限でrootのホームにある設定変更用�
 
 # ポートフォワーディングとは？
 
-（概念図）
+![](images/02-port-forwarding.png){:relative_height='95'}
 
 
 # Case0: ポートフォワードが必要ないケース
