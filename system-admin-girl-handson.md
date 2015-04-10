@@ -746,17 +746,14 @@ $ curl http://localhost:10080/
 
 # まとめ：ローカルフォワード
 
-![手元から接続先ネットワークに
-パケットを送る](images/matome-local.png){:relative_width='80'}
+![](images/matome-local.png){:relative_width='80'}
 
 # まとめ：リモートフォワード
 
-![接続先ネットワークから
-手元にパケットを送る](images/matome-remote.png){:relative_width='80'}
+![](images/matome-remote.png){:relative_width='80'}
 
-# まとめ：連携
+# まとめ：両者の連携
 
-![手元から最終目的地に
-パケットを送る](images/matome-both.png){:relative_width='80'}
+![](images/matome-both.png){:relative_width='80'}
 
 
