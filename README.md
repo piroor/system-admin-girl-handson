@@ -11,6 +11,13 @@ It includes a memo space and three cheat sheets for SSH port forwarding.
 
     rake
 
+### To control slides from handheld computer
+
+    gem install rabbirack
+    rabbirack rackup -- --host 0.0.0.0
+
+Then you can control slides via http://(ip address):10102/
+
 ### To publish this slides
 
     rake publish

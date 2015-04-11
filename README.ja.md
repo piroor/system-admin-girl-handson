@@ -11,6 +11,13 @@
 
     rake
 
+### rabbirackを使用して携帯端末から操作する
+
+    gem install rabbirack
+    rabbirack rackup -- --host 0.0.0.0
+
+この状態で、携帯端末で http://(ip address):10102/ を訪問する。
+
 ### 公開
 
     rake publish
